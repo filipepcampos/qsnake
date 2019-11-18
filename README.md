@@ -48,7 +48,7 @@ Este jogo poderá ser jogado por um humano ou por um agente de A.I baseado em Q-
     - Traduzir jogo em estados básicos
     - Avaliar, para cada estado básico, a melhor ação possível
 
-3 - Criar menu
+3. Criar menu
 
 ------
 18/11/2019
