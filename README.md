@@ -9,16 +9,6 @@
 
 2. Implementar Q-Learning
 
-#### Repositório de código
-
-1) Link para o repositório do GitHub: https://github.com/filipepcampos/qsnake
-
-2) Adicionar os profs da Unidade:
-
-- https://github.com/fernandocassola
-- https://github.com/rpmcruz
-- https://github.com/jlopes60
-- https://github.com/rcamacho
 
 #### Descrição
 
