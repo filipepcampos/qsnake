@@ -1,5 +1,7 @@
 import pygame
 import numpy as np
+from player import Player
+from screen import Screen
 
 WIDTH = 30
 HEIGHT = 30
@@ -7,46 +9,46 @@ PX_SIZE = 20
 REAL_WIDTH = WIDTH * PX_SIZE
 REAL_HEIGHT = HEIGHT * PX_SIZE
 MAP = "map.csv"
+FPS = 20
 
-COLORS = {"background": (220, 220, 220),
-        "wall": (60, 60, 60)}
+# ACTIONS : [UP, DOWN, LEFT, RIGHT]   [0, 1, 2, 3]
 
 def main():
     pygame.init()
-    grid = load_map()
-    screen = pygame.display.set_mode((REAL_WIDTH, REAL_HEIGHT))
-    map_surface = draw_map(grid)    
-    
+    screen = Screen(WIDTH, HEIGHT, PX_SIZE, MAP)
+    player = Player(WIDTH, HEIGHT, PX_SIZE)
+    player.load_grid(screen.grid)    
     mainloop = True
+    clock = pygame.time.Clock()
+
     while mainloop:
-        screen.blit(map_surface, (0, 0))
-        pygame.display.flip()
+        clock.tick(FPS)
+        screen.blit(player.pos) 
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 mainloop = False
 
-def load_map():
-    if not MAP:
-        grid = create_map()
-    else:
-        grid = np.loadtxt(MAP)
-    return grid
+        action = register_keypress()
+        player.change_action(action)
+        player.move()
 
-def create_map():
-    grid = np.zeros((HEIGHT, WIDTH))
-    grid[:,0], grid[:,-1] = 1, 1
-    grid[0,], grid[-1,] = 1, 1
-    # np.savetxt("map.csv", grid, fmt="%.0i")
-    return grid
+        mainloop = player.check_wall()
 
-def draw_map(grid):
-    surface = pygame.Surface((REAL_WIDTH, REAL_HEIGHT))
-    surface.fill(COLORS["background"])
-    for i, row in enumerate(grid):
-        for j, value in enumerate(row):
-            if value == 1:
-                pygame.draw.rect(surface, COLORS["wall"], pygame.Rect(j*PX_SIZE, i*PX_SIZE, PX_SIZE, PX_SIZE))
-    return surface
+
+def register_keypress():
+    keys = pygame.key.get_pressed()
+    action = None
+    if keys[pygame.K_UP]:
+        action = 0
+    elif keys[pygame.K_DOWN]:
+        action = 1
+    elif keys[pygame.K_LEFT]:
+        action = 2
+    elif keys[pygame.K_RIGHT]:
+        action = 3
+    return action
+
     
 
 
