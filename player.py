@@ -1,20 +1,34 @@
-import pygame
 import numpy as np
 class Player:
-    def __init__(self, WIDTH, HEIGHT, PX_SIZE):
+    def __init__(self, WIDTH, HEIGHT, PX_SIZE, GRID):
         self.px_size = PX_SIZE
-        # TODO: Verify if player position is not in a wall
+        self.map_width, self.map_height = WIDTH, HEIGHT        
+        self.grid = GRID
+
         self.pos = (np.random.randint(0, WIDTH), np.random.randint(0, HEIGHT))
+        while GRID[self.pos] == 1:
+            self.pos = (np.random.randint(0, WIDTH), np.random.randint(0, HEIGHT))
         self.direction = None
-    
-    def load_grid(self, grid):
-        self.grid = grid
+
+        self.tail = []
+
+        self.score = 0
 
     def check_wall(self):
-        print(self.pos)
         if self.grid[self.pos] == 1:
             return False
         return True
+    
+    def check_food(self, food):
+        if self.pos == food.pos:
+            food.reset()
+            self.score += 1
+    
+    def check_tail(self):
+        if self.pos in self.tail:
+            return False
+        return True
+        
     
     def change_action(self, action):
         if action != None:
@@ -34,5 +48,10 @@ class Player:
             x -= 1
         elif self.direction == 3:
             x += 1
-        self.pos = (x, y)
+
+        self.tail.append(self.pos)
+        while len(self.tail) > self.score:
+            self.tail.pop(0)
+
+        self.pos = (x%self.map_width, y%self.map_height)
     
