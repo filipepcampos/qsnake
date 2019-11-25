@@ -26,10 +26,10 @@ Este jogo poderá ser jogado por um humano ou por um agente de A.I baseado em Q-
 ### Tarefas
 
 1. **MATRIZ NxN**
-   1. Desenhar
-   1. Teclas jogador
-   1. Desenhar comida / colisão
-   1. Criar "cauda" do jogador (lista)
+   1. ~~Desenhar~~
+   1. ~~Teclas jogador~~
+   1. ~~Desenhar comida / colisão~~
+   1. ~~Criar "cauda" do jogador (lista)~~
 1. **OPÇÃO JOGADOR CONTROLADO POR AI (Q-Learning)**
    1. Traduzir jogo em estados básicos
       * Criar uma matriz estados -> acções
