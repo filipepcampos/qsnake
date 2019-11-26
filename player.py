@@ -23,6 +23,8 @@ class Player:
         if self.pos == food.pos:
             food.reset()
             self.score += 1
+            return True
+        return False
     
     def check_tail(self):
         if self.pos in self.tail:
