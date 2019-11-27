@@ -8,16 +8,17 @@ COLORS = {"background": (220, 220, 220),
         "food": (200, 0, 0)}
 
 class Screen:
-    def __init__(self, WIDTH, HEIGHT, PX_SIZE, MAP):        
-        pygame.init()
+    def __init__(self, WIDTH, HEIGHT, PX_SIZE, MAP, GRAPHICS=True):   
+        
         self.width, self.height = WIDTH, HEIGHT
         self.px_size = PX_SIZE
-        self.real_width, self.real_height = WIDTH * PX_SIZE, HEIGHT * PX_SIZE
-
-
-        self.screen = pygame.display.set_mode((self.real_width, self.real_height))
+        self.real_width, self.real_height = WIDTH * PX_SIZE, HEIGHT * PX_SIZE        
         self.grid = self.load_map(MAP)
-        self.surface = self.draw_map(self.grid)
+        if GRAPHICS:    
+            pygame.init()
+            self.screen = pygame.display.set_mode((self.real_width, self.real_height))
+            self.surface = self.draw_map(self.grid)
+        
 
     def load_map(self, MAP):
         if MAP:            

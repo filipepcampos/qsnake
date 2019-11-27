@@ -8,7 +8,7 @@ WIDTH = 30
 HEIGHT = 30
 PX_SIZE = 20
 MAP = "map.csv"
-FPS = 20
+FPS = 30
 
 # ACTIONS : [UP, DOWN, LEFT, RIGHT]   [0, 1, 2, 3]
 

@@ -1,7 +1,10 @@
 def get_state(player, food, WIDTH, HEIGHT):
-    return int(danger_state(player, WIDTH, HEIGHT) + food_state(player.pos, food.pos) + str(bin(player.direction))[2:], 2)
+    ''' Return game state '''
+    state_binary = danger_state(player, WIDTH, HEIGHT) + food_state(player.pos, food.pos) + format(player.direction, '02b')
+    return int(state_binary, 2)
 
 def food_state(player_pos, food_pos):
+    ''' Return string corresponding to food state (relative to player) '''
     player_x, player_y = player_pos
     food_x, food_y = food_pos
     # is_up, is_down , is_left, is_right
@@ -17,19 +20,19 @@ def food_state(player_pos, food_pos):
     return "".join(state)
 
 def danger_state(player, WIDTH, HEIGHT):
+    ''' Return string corresponding to the adjacent blocks which are dangerous '''
     x, y = player.pos
     grid = player.grid
     tail = player.tail
-    adjacent = [(-1 + x, 0), (1 + x, 0), (0, -1 + y), (0, 1 + y)]
-    adjacent = map(lambda x: check_danger(x, grid, tail, WIDTH, HEIGHT), adjacent)
+    adjacent = [(x, -1 + y), (x, 1 + y), (-1 + x, y), (1 + x, y)]
+    adjacent = [check_danger(i, grid, tail, WIDTH, HEIGHT) for i in adjacent]
     return "".join(adjacent)
 
 def check_danger(tup, grid, tail, WIDTH, HEIGHT):
+    ''' Verify if coordinates contain danger '''
     x, y = tup
     tup = (x % WIDTH, y % HEIGHT)
-    if grid[tup] == 1:
-        return "1"
-    elif tup in tail:
+    if grid[tup] == 1 or tup in tail:
         return "1"
     return "0"
   
