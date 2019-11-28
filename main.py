@@ -9,12 +9,12 @@ WIDTH = 30
 HEIGHT = 30
 PX_SIZE = 20
 MAP = "map.csv"
-DATA = ""
+DATA = "./data/data6/"
 
-GRAPHICS = False
-TRAINING = True
+GRAPHICS = True
+TRAINING = False
 
-TOTAL = 100_000
+TOTAL = 10_000
 EPSILON_DELTA = 1 / TOTAL
 ALPHA = 0.1
 GAMMA = 0.9
@@ -25,8 +25,8 @@ fps = 0
 def main():
     fps = 60
     scores = []
-    if DATA:
-        q_table = np.load(DATA)
+    if not TRAINING:
+        q_table = np.load(DATA + "data.npy")
     else:
         q_table = np.zeros((1023, 4))
     mainloop = True
@@ -35,6 +35,7 @@ def main():
         clock = pygame.time.Clock()
     screen = Screen(WIDTH, HEIGHT, PX_SIZE, MAP, GRAPHICS)  
     time = 200
+
     if TRAINING:
         epsilon = 1
     else:
@@ -73,10 +74,11 @@ def main():
                 reward -= 100
             
             next_state = get_state(player, food, WIDTH, HEIGHT)
-            old_value = q_table[state][action]
-            next_max = np.max(q_table[next_state])
-            new_value = old_value + ALPHA * (reward + GAMMA * next_max - old_value)
-            q_table[state][action] = new_value
+            if TRAINING:
+                old_value = q_table[state][action]
+                next_max = np.max(q_table[next_state])
+                new_value = old_value + ALPHA * (reward + GAMMA * next_max - old_value)
+                q_table[state][action] = new_value
 
             state = next_state
             
@@ -91,9 +93,12 @@ def main():
             print(f"{i}:{player.score}")
         if not mainloop:
             break
+
     if TRAINING and not GRAPHICS:
-        np.save("./data/data2/data.npy", q_table)
-        np.save("./data/data2/scores.npy", np.array(scores))
+        np.save(DATA + "data.npy", q_table)
+        np.save(DATA + "scores.npy", np.array(scores))
+    if not TRAINING and not GRAPHICS:
+        np.save(DATA + "performance.npy", np.array(scores))
 
 def register_keypress(fps):
     keys = pygame.key.get_pressed()
