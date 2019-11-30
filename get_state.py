@@ -1,6 +1,6 @@
 def get_state(player, food, WIDTH, HEIGHT):
     ''' Return game state '''
-    state_binary = danger_state(player, WIDTH, HEIGHT) + food_state(player.pos, food.pos) + format(player.direction, '02b')
+    state_binary = danger_state(player, WIDTH, HEIGHT) + center_state(player) +food_state(player.pos, food.pos) + format(player.direction, '02b')
     return int(state_binary, 2)
 
 def food_state(player_pos, food_pos):
@@ -18,6 +18,17 @@ def food_state(player_pos, food_pos):
     elif player_y > food_y:
         state[1] = "1"
     return "".join(state)
+
+def center_state(player):
+    tail = player.tail
+    pos = player.pos
+    center_x, center_y = sum([x for x, y in tail]), sum([y for x, y in tail])    
+    is_up, is_left = "0", "0"
+    if center_x > pos[0]:
+        is_left = "1"
+    if center_y < pos[1]:
+        is_up = "1"
+    return is_up + is_left
 
 def danger_state(player, WIDTH, HEIGHT):
     ''' Return string corresponding to the adjacent blocks which are dangerous '''

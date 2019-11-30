@@ -9,9 +9,9 @@ WIDTH = 30
 HEIGHT = 30
 PX_SIZE = 20
 MAP = "map.csv"
-DATA = "./data/data6/"
+DATA = "./data/data10/"
 
-GRAPHICS = True
+GRAPHICS = False
 TRAINING = False
 
 TOTAL = 10_000
@@ -28,13 +28,14 @@ def main():
     if not TRAINING:
         q_table = np.load(DATA + "data.npy")
     else:
-        q_table = np.zeros((1023, 4))
+        q_table = np.zeros((4095, 4))
+    
     mainloop = True
 
     if GRAPHICS:
         clock = pygame.time.Clock()
     screen = Screen(WIDTH, HEIGHT, PX_SIZE, MAP, GRAPHICS)  
-    time = 200
+    time = 1000
 
     if TRAINING:
         epsilon = 1
@@ -46,7 +47,7 @@ def main():
         food = Food(WIDTH, HEIGHT, screen.grid)
         player.change_action(0)
         state = get_state(player, food, WIDTH, HEIGHT)
-        time = 200
+        time = 300
         loop = True
 
         while mainloop and loop:
@@ -55,10 +56,12 @@ def main():
                         
             reward = 0
 
+            
             if np.random.uniform() < epsilon:
                 action = np.random.choice([0, 1, 2, 3])
             else:
                 action = np.argmax(q_table[state])
+            
             player.change_action(action)
             player.move()
             time -= 1
@@ -67,7 +70,7 @@ def main():
 
             if player.check_food(food):
                 reward += 1
-                time += 100
+                time += 200
 
             loop = player.check_wall() and player.check_tail() and time >= 0
             if not loop:
@@ -89,7 +92,7 @@ def main():
                         mainloop = False
         epsilon -= EPSILON_DELTA
         scores.append(player.score)
-        if i % 500 == 0:
+        if i % 10 == 0:
             print(f"{i}:{player.score}")
         if not mainloop:
             break

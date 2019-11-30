@@ -1,5 +1,5 @@
 import numpy as np
-from collections import deque
+#from collections import deque
 
 class Player:
     def __init__(self, WIDTH, HEIGHT, PX_SIZE, GRID):
@@ -12,7 +12,8 @@ class Player:
             self.pos = (np.random.randint(0, WIDTH), np.random.randint(0, HEIGHT))
         self.direction = None
 
-        self.tail = deque([])
+        #self.tail = deque([])
+        self.tail = []
 
         self.score = 0
 
@@ -65,7 +66,7 @@ class Player:
 
         self.tail.append(self.pos)
         while len(self.tail) > self.score:
-            self.tail.popleft()
+            self.tail.pop(0)
 
         self.pos = (x%self.map_width, y%self.map_height)
     
