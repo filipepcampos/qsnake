@@ -9,40 +9,31 @@ WIDTH = 30
 HEIGHT = 30
 PX_SIZE = 20
 MAP = "map.csv"
-DATA = "./data/data10/"
+DATA = "./data/data6/"
 
-GRAPHICS = False
+GRAPHICS = True
 TRAINING = False
 
-TOTAL = 10_000
+# Training parameters
+TOTAL = 1_000
 EPSILON_DELTA = 1 / TOTAL
 ALPHA = 0.1
 GAMMA = 0.9
 fps = 0
 
-# ACTIONS : [UP, DOWN, LEFT, RIGHT]   [0, 1, 2, 3]
-
 def main():
-    fps = 60
+    fps, mainloop = 60, True
     scores = []
-    if not TRAINING:
-        q_table = np.load(DATA + "data.npy")
-    else:
-        q_table = np.zeros((4095, 4))
-    
-    mainloop = True
+    q_table = load_table()
 
     if GRAPHICS:
         clock = pygame.time.Clock()
     screen = Screen(WIDTH, HEIGHT, PX_SIZE, MAP, GRAPHICS)  
-    time = 1000
 
-    if TRAINING:
-        epsilon = 1
-    else:
-        epsilon = 0
+    epsilon = 1 if TRAINING else 0
 
     for i in range(TOTAL):
+        # Restart game for another round
         player = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
         food = Food(WIDTH, HEIGHT, screen.grid)
         player.change_action(0)
@@ -53,43 +44,41 @@ def main():
         while mainloop and loop:
             if GRAPHICS:
                 clock.tick(fps)
-                        
-            reward = 0
 
+            reward = 0
             
-            if np.random.uniform() < epsilon:
-                action = np.random.choice([0, 1, 2, 3])
-            else:
-                action = np.argmax(q_table[state])
-            
+            # Move player and update time
+            action = choose_action(epsilon, q_table, state)    
             player.change_action(action)
             player.move()
             time -= 1
+
+            # Update the screen
             if GRAPHICS:
                 screen.blit(player.pos, food.pos, player.tail) 
 
+            # Attribute reward according to certain conditions
             if player.check_food(food):
                 reward += 1
                 time += 200
-
             loop = player.check_wall() and player.check_tail() and time >= 0
             if not loop:
                 reward -= 100
             
+            # Train the model
             next_state = get_state(player, food, WIDTH, HEIGHT)
             if TRAINING:
-                old_value = q_table[state][action]
-                next_max = np.max(q_table[next_state])
-                new_value = old_value + ALPHA * (reward + GAMMA * next_max - old_value)
-                q_table[state][action] = new_value
-
+                q_table = train(q_table, state, next_state, action, reward) 
             state = next_state
             
             if GRAPHICS:
+                # Register keyboard and quit events
                 fps = register_keypress(fps)
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         mainloop = False
+    
+        # Finalize game by appending score and updating epsilon
         epsilon -= EPSILON_DELTA
         scores.append(player.score)
         if i % 10 == 0:
@@ -97,23 +86,88 @@ def main():
         if not mainloop:
             break
 
+    save_data(q_table, scores)
+
+def register_keypress(fps):
+    ''' Register keypresses and changes FPS accordingly
+    
+    Args:
+        fps (int): current FPS value
+    
+    Returns:
+        fps (int): new FPS value if key has been pressed
+    '''
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_4]:
+        fps = 0
+    elif keys[pygame.K_3]:
+        fps = 60
+    elif keys[pygame.K_2]:
+        fps = 30
+    elif keys[pygame.K_1]:
+        fps = 10
+    return fps
+
+def load_table():
+    ''' Load q_table 
+    
+    Returns:
+        q_table (np.array)
+    '''
+    if not TRAINING:
+        q_table = np.load(DATA + "data.npy")
+    else:
+        q_table = np.zeros((4095, 4))
+    return q_table
+
+def choose_action(epsilon, q_table, state):
+    ''' Choose which action to take
+    
+    Args:
+        epsilon (float): epsilon value
+        q_table (np.array): q_table
+        state (int): number that represents current game state
+
+    Returns:
+        action (int): number from [0, 1, 2, 3] that represents the next action 
+    '''
+    if np.random.uniform() < epsilon:
+        action = np.random.choice([0, 1, 2, 3])
+    else:
+        action = np.argmax(q_table[state])
+    return action
+
+def train(q_table, state, next_state, action, reward):
+    ''' Perform Q-Learning calculations 
+    
+    Args:
+        q_table (np.array): q_table to be changed
+        state (int): number that represents game state before action was taken
+        next_state (int): number that represents game state after action was taken
+        action (int): last action taken
+        reward (int): reward value associated with last action
+    
+    Returns:
+        q_table (np.array): q_table after calculations
+    '''
+    old_value = q_table[state][action]
+    next_max = np.max(q_table[next_state])
+    new_value = old_value + ALPHA * (reward + GAMMA * next_max - old_value)
+    q_table[state][action] = new_value
+    return q_table
+
+def save_data(q_table, scores):
+    ''' Save the data
+
+    Args:
+        q_table (np.array): trained numpy array
+        scores (np.array): numpy array with score of each round
+    '''
     if TRAINING and not GRAPHICS:
         np.save(DATA + "data.npy", q_table)
         np.save(DATA + "scores.npy", np.array(scores))
     if not TRAINING and not GRAPHICS:
         np.save(DATA + "performance.npy", np.array(scores))
-
-def register_keypress(fps):
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_4]:
-        return 0
-    elif keys[pygame.K_3]:
-        return 60
-    elif keys[pygame.K_2]:
-        return 30
-    elif keys[pygame.K_1]:
-        return 10
-    return fps
 
 if __name__ == "__main__":
     main() 

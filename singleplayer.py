@@ -34,6 +34,11 @@ def main():
                 mainloop = False
 
 def register_keypress():
+    ''' Register keypresses
+    
+    Returns:
+        action (int): number from [0, 1, 2, 3] that represents next action to take 
+    '''
     keys = pygame.key.get_pressed()
     action = None
     if keys[pygame.K_UP]:

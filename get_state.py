@@ -1,13 +1,31 @@
 def get_state(player, food, WIDTH, HEIGHT):
-    ''' Return game state '''
-    state_binary = danger_state(player, WIDTH, HEIGHT) + center_state(player) +food_state(player.pos, food.pos) + format(player.direction, '02b')
-    return int(state_binary, 2)
+    ''' Return game state
+    
+    Args:
+        player (Player): player object
+        food (Food): food object
+        WIDTH (int): map width
+        HEIGHT (int): map height
+    
+    Returns:
+        state (int): Unique number that represents current state 
+    '''
+    state_binary = danger_state(player, WIDTH, HEIGHT) + food_state(player.pos, food.pos) + format(player.direction, '02b')
+    state = int(state_binary, 2)
+    return state
 
 def food_state(player_pos, food_pos):
-    ''' Return string corresponding to food state (relative to player) '''
+    ''' Return string that represents food position relative to player
+    
+    Args:
+        player_pos (tuple): player position
+        food_pos (tuple): food position
+        
+    Returns:
+        state (str): string that represents 4 boolean values (food_left, food_right, food_up, food_down)
+    '''
     player_x, player_y = player_pos
     food_x, food_y = food_pos
-    # is_up, is_down , is_left, is_right
     state = ["0", "0", "0", "0"]
     if player_x < food_x:
         state[3] = "1"
@@ -17,30 +35,39 @@ def food_state(player_pos, food_pos):
         state[0] = "1"
     elif player_y > food_y:
         state[1] = "1"
-    return "".join(state)
-
-def center_state(player):
-    tail = player.tail
-    pos = player.pos
-    center_x, center_y = sum([x for x, y in tail]), sum([y for x, y in tail])    
-    is_up, is_left = "0", "0"
-    if center_x > pos[0]:
-        is_left = "1"
-    if center_y < pos[1]:
-        is_up = "1"
-    return is_up + is_left
+    state = "".join(state)
+    return state
 
 def danger_state(player, WIDTH, HEIGHT):
-    ''' Return string corresponding to the adjacent blocks which are dangerous '''
+    ''' Return danger state of all adjacent blocks
+    
+    Args:
+        player (Player): player object
+        WIDTH (int): map width
+        HEIGHT (int): map height
+        
+    Returns:
+        adjacent (str): string that represents 4 boolean values corresponding to the danger in 4 possible movement directions
+    '''
     x, y = player.pos
-    grid = player.grid
-    tail = player.tail
     adjacent = [(x, -1 + y), (x, 1 + y), (-1 + x, y), (1 + x, y)]
-    adjacent = [check_danger(i, grid, tail, WIDTH, HEIGHT) for i in adjacent]
-    return "".join(adjacent)
+    adjacent = [check_danger(i, player.grid, player.tail, WIDTH, HEIGHT) for i in adjacent]
+    adjacent = "".join(adjacent)
+    return adjacent
 
 def check_danger(tup, grid, tail, WIDTH, HEIGHT):
-    ''' Verify if coordinates contain danger '''
+    ''' Verify if specific block is dangerous
+    
+    Args:
+        tup (tuple): block position in (x, y) coordinates
+        grid (np.array): numpy array that represents the map
+        tail (collections.deque): contains all (x, y) positions of the tail blocks
+        WIDTH (int): map width
+        HEIGHT (int): map height
+    
+    Returns:
+        (str): "1" if block is dangerous, "0" if not
+    '''
     x, y = tup
     tup = (x % WIDTH, y % HEIGHT)
     if grid[tup] == 1 or tup in tail:
