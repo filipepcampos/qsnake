@@ -24,7 +24,7 @@ class Screen:
         real_height (int): contains value of HEIGHT in pixels
         grid (np.array): array that represents the map
         screen (pygame.Surface): window where the game is played
-        surface (pygame.Surface): surface where all objects are drawn
+        map_surface (pygame.Surface): surface with all map elements
     '''
     def __init__(self, WIDTH, HEIGHT, PX_SIZE, MAP, GRAPHICS=True):           
         self.width, self.height = WIDTH, HEIGHT
@@ -34,7 +34,7 @@ class Screen:
         if GRAPHICS:    
             pygame.init()
             self.screen = pygame.display.set_mode((self.real_width, self.real_height))
-            self.surface = self.draw_map(self.grid)
+            self.map_surface = self.draw_map(self.grid)
         
 
     def load_map(self, MAP):
@@ -66,7 +66,7 @@ class Screen:
         return grid
 
     def draw_map(self, grid):
-        ''' Draw all blocks from the back to a surface 
+        ''' Draw all blocks from the map to a surface 
         
         Args:
             grid (np.array): numpy array that represents the map
@@ -90,20 +90,20 @@ class Screen:
             food_pos (tuple): food (x, y) position
             tail (collections.deque): contains all (x, y) positions of all elements of the player's tail
         '''
-        self.surface = self.draw_map(self.grid)
+        surface = self.map_surface.copy()
 
         tmp_rect = pygame.Rect(player_pos[0] * self.px_size, player_pos[1] * self.px_size, self.px_size, self.px_size)
-        pygame.draw.rect(self.surface, COLORS["player"], tmp_rect) 
-        pygame.draw.rect(self.surface, COLORS["border"], tmp_rect, 3)
+        pygame.draw.rect(surface, COLORS["player"], tmp_rect) 
+        pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
 
         tmp_rect.x, tmp_rect.y = food_pos[0] * self.px_size, food_pos[1] * self.px_size
-        pygame.draw.rect(self.surface, COLORS["food"], tmp_rect) 
-        pygame.draw.rect(self.surface, COLORS["border"], tmp_rect, 3)
+        pygame.draw.rect(surface, COLORS["food"], tmp_rect) 
+        pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
 
         for i in tail:
             tmp_rect.x, tmp_rect.y = i[0] * self.px_size, i[1] * self.px_size
-            pygame.draw.rect(self.surface, COLORS["player"], tmp_rect)
-            pygame.draw.rect(self.surface, COLORS["border"], tmp_rect, 3)
+            pygame.draw.rect(surface, COLORS["player"], tmp_rect)
+            pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
         
-        self.screen.blit(self.surface, (0, 0))
+        self.screen.blit(surface, (0, 0))
         pygame.display.flip()
