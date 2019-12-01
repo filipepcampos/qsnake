@@ -53,10 +53,6 @@ def main():
             player.move()
             time -= 1
 
-            # Update the screen
-            if GRAPHICS:
-                screen.blit(player.pos, food.pos, player.tail) 
-
             # Attribute reward according to certain conditions
             if player.check_food(food):
                 reward += 1
@@ -64,6 +60,12 @@ def main():
             loop = player.check_wall() and player.check_tail() and time >= 0
             if not loop:
                 reward -= 100
+
+            
+
+            # Update the screen
+            if GRAPHICS and loop:
+                screen.blit(player.pos, food.pos, player.tail) 
             
             # Train the model
             next_state = get_state(player, food, WIDTH, HEIGHT)

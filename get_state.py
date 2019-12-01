@@ -70,7 +70,7 @@ def check_danger(tup, grid, tail, WIDTH, HEIGHT):
     '''
     x, y = tup
     tup = (x % WIDTH, y % HEIGHT)
-    if grid[tup] == 1 or tup in tail:
+    if grid[tup[::-1]] == 1 or tup in tail:
         return "1"
     return "0"
   
