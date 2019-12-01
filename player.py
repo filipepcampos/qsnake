@@ -56,7 +56,7 @@ class Player:
             (bool): True if player overlaps food, False otherwise
         '''
         if self.pos == food.pos:
-            food.reset()
+            food.reset(self.tail)
             self.score += 1
             return True
         return False
