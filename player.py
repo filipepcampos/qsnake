@@ -42,7 +42,7 @@ class Player:
         Returns:
             (bool): False if player position overlaps wall, True otherwise
         """
-        if self.grid[self.pos] == 1:
+        if self.grid[self.pos[::-1]] == 1:
             return False
         return True
     

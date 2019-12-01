@@ -76,10 +76,15 @@ class Screen:
         '''
         surface = pygame.Surface((self.real_width, self.real_height))
         surface.fill(COLORS["background"])
-        for i, row in enumerate(grid):
-            for j, value in enumerate(row):
-                if value == 1:
-                    pygame.draw.rect(surface, COLORS["wall"], pygame.Rect(j*self.px_size, i*self.px_size, self.px_size, self.px_size))
+        # for i, row in enumerate(grid):
+        #     for j, value in enumerate(row):
+        #         if value == 1:
+        #             pygame.draw.rect(surface, COLORS["wall"], pygame.Rect(j*self.px_size, i*self.px_size, self.px_size, self.px_size))
+        rows, cols = grid.shape[0], grid.shape[1]
+        for x in range(0, rows):
+            for y in range(0, cols):
+                if grid[x][y] == 1:
+                    pygame.draw.rect(surface, COLORS["wall"], pygame.Rect(y*self.px_size, x*self.px_size, self.px_size, self.px_size))
         return surface
 
     def blit(self, player_pos, food_pos, tail):
