@@ -24,5 +24,5 @@ class Food:
             tail (collections.deque): optional deque containing player's tail (x, y) positions
         '''
         self.pos = np.random.randint(0, self.width), np.random.randint(0, self.height)
-        while self.grid[self.pos] == 1 or self.pos in tail:
+        while self.grid[self.pos[::-1]] == 1 or self.pos in tail:
             self.pos = np.random.randint(0, self.width), np.random.randint(0, self.height)
