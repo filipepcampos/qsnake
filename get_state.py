@@ -10,7 +10,7 @@ def get_state(player, food, WIDTH, HEIGHT):
     Returns:
         state (int): Unique number that represents current state 
     '''
-    state_binary = danger_state(player, WIDTH, HEIGHT) + food_state(player.pos, food.pos) + format(player.direction, '02b')
+    state_binary = ( danger_state(player, WIDTH, HEIGHT) + food_state(player.pos, food.pos) + format(player.direction, '02b')) 
     state = int(state_binary, 2)
     return state
 
@@ -70,7 +70,7 @@ def check_danger(tup, grid, tail, WIDTH, HEIGHT):
     '''
     x, y = tup
     tup = (x % WIDTH, y % HEIGHT)
-    if grid[tup[::-1]] == 1 or tup in tail:
+    if grid[tup[::-1]] == 1:
         return "1"
     return "0"
   

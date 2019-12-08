@@ -57,7 +57,7 @@ def main():
             if player.check_food(food):
                 reward += 1
                 time += 200
-            loop = player.check_wall() and player.check_tail() and time >= 0
+            loop = player.check_danger() and time >= 0
             if not loop:
                 reward -= 100
 
