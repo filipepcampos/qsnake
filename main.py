@@ -15,7 +15,7 @@ GRAPHICS = True
 TRAINING = False
 
 # Training parameters
-TOTAL = 1_000
+TOTAL = 10_000
 EPSILON_DELTA = 1 / TOTAL
 ALPHA = 0.1
 GAMMA = 0.9
@@ -55,13 +55,12 @@ def main():
 
             # Attribute reward according to certain conditions
             if player.check_food(food):
-                reward += 1
+                reward += 10
                 time += 200
             loop = player.check_wall() and player.check_tail() and time >= 0
             if not loop:
                 reward -= 100
-
-            
+            reward -= 0.1
 
             # Update the screen
             if GRAPHICS and loop:
@@ -70,7 +69,7 @@ def main():
             # Train the model
             next_state = get_state(player, food, WIDTH, HEIGHT)
             if TRAINING:
-                q_table = train(q_table, state, next_state, action, reward) 
+                q_table = train(q_table, state, next_state, action, reward, player.score) 
             state = next_state
             
             if GRAPHICS:
@@ -83,7 +82,7 @@ def main():
         # Finalize game by appending score and updating epsilon
         epsilon -= EPSILON_DELTA
         scores.append(player.score)
-        if i % 10 == 0:
+        if i % 1 == 0:
             print(f"{i}:{player.score}")
         if not mainloop:
             break
@@ -139,7 +138,7 @@ def choose_action(epsilon, q_table, state):
         action = np.argmax(q_table[state])
     return action
 
-def train(q_table, state, next_state, action, reward):
+def train(q_table, state, next_state, action, reward, player_score):
     ''' Perform Q-Learning calculations 
     
     Args:
@@ -152,9 +151,10 @@ def train(q_table, state, next_state, action, reward):
     Returns:
         q_table (np.array): q_table after calculations
     '''
+    player_score += 1
     old_value = q_table[state][action]
     next_max = np.max(q_table[next_state])
-    new_value = old_value + ALPHA * (reward + GAMMA * next_max - old_value)
+    new_value = old_value + (player_score/500) * (reward + GAMMA * next_max - old_value)
     q_table[state][action] = new_value
     return q_table
 

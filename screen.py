@@ -1,11 +1,12 @@
 import pygame
 import numpy as np
 
-COLORS = {"background": (220, 220, 220),
-        "wall": (60, 60, 60),
-        "player": (0, 200, 0),
+COLORS = {"background": (245, 243, 220),
+        "wall": (40, 40, 40),        
+        "player": (166, 255, 175),
+        "player2": (143, 204, 254),
         "border": (30, 30, 30),
-        "food": (200, 0, 0)}
+        "food": (255, 141, 103)}
 
 class Screen:
     ''' Handles creation of map grid and drawing of objects
@@ -87,7 +88,7 @@ class Screen:
                     pygame.draw.rect(surface, COLORS["wall"], pygame.Rect(y*self.px_size, x*self.px_size, self.px_size, self.px_size))
         return surface
 
-    def blit(self, player_pos, food_pos, tail):
+    def blit(self, player_pos, food_pos, tail, player2_pos=None, tail2=None):
         ''' Draw all objects and update the screen
 
         Args:
@@ -110,5 +111,14 @@ class Screen:
             pygame.draw.rect(surface, COLORS["player"], tmp_rect)
             pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
         
+        if player2_pos:
+            tmp_rect = pygame.Rect(player2_pos[0] * self.px_size, player2_pos[1] * self.px_size, self.px_size, self.px_size)
+            pygame.draw.rect(surface, COLORS["player2"], tmp_rect) 
+            pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
+            for i in tail2:
+                tmp_rect.x, tmp_rect.y = i[0] * self.px_size, i[1] * self.px_size
+                pygame.draw.rect(surface, COLORS["player2"], tmp_rect)
+                pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
+
         self.screen.blit(surface, (0, 0))
         pygame.display.flip()
