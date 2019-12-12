@@ -28,12 +28,9 @@ def main():
         food = Food(WIDTH, HEIGHT, screen.grid)
         screen.blit(player.pos, food.pos, player.tail, player_ai.pos, player_ai.tail) 
         action = None
-        while action == None:            
+        while action == None and mainloop == True:            
             action = register_keypress(None)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    mainloop = False
-                    action = 0
+            mainloop = register_quit()
 
         player.change_action(action)
         player_ai.change_action(0)
@@ -56,20 +53,24 @@ def main():
             # Check conditions            
             player.check_food(food)
             player_ai.check_food(food)
-            loop = player_ai.check_wall() and player_ai.check_tail() and player.check_wall() and player.check_tail()
+            loop = player_ai.check_death(player.pos) and player.check_death(player_ai.pos)
                    
 
             # Update the screen
             if loop:
-                screen.blit(player.pos, food.pos, player.tail, player_ai.pos, player_ai.tail) 
+                screen.blit(player.pos, food.pos, player.tail, player_ai.pos, player_ai.tail)
             
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    mainloop = False
+            mainloop = register_quit()
         
         print(f"{player.score}:{player_ai.score}")
+        player.clean_tail()
+        player_ai.clean_tail()
         if not mainloop:
             break
+        continue_game = False
+        while not continue_game and mainloop:
+            mainloop = register_quit()
+            continue_game = register_enter()
 
 
 def register_keypress(direction):
@@ -89,6 +90,18 @@ def register_keypress(direction):
     elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
         action = 3
     return action
+
+def register_enter():
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_SPACE] or keys[pygame.K_RETURN]:
+        return True
+    return False
+
+def register_quit():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            return False
+    return True
 
 if __name__ == "__main__":
     main() 

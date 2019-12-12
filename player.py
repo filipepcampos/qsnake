@@ -36,13 +36,13 @@ class Player:
         #self.tail = []
         self.score = 0
 
-    def check_wall(self):
-        """Check if player position overlaps a wall
+    def check_death(self, enemy_pos=None):
+        """Check if player position overlaps a wall or tail
         
         Returns:
-            (bool): False if player position overlaps wall, True otherwise
+            (bool): False if player position overlaps wall or tail, True otherwise
         """
-        if self.grid[self.pos[::-1]] == 1:
+        if self.grid[self.pos[::-1]] == 1 or enemy_pos == self.pos:
             return False
         return True
     
@@ -60,18 +60,7 @@ class Player:
             self.score += 1
             return True
         return False
-    
-    def check_tail(self):
-        ''' Check if player position overlaps it's tail
-
-        Returns: 
-            (bool): False if player overlaps tail, True otherwise 
-        '''
-        if self.pos in self.tail:
-            return False
-        return True
         
-    
     def change_action(self, action):
         ''' Change direction based on input action if it's allowed
         
@@ -99,7 +88,14 @@ class Player:
             x += 1
 
         self.tail.append(self.pos)
+        self.grid[self.pos[::-1]] = 1
         while len(self.tail) > self.score:
-            self.tail.popleft()
+            tmp = self.tail.popleft()
+            self.grid[tmp[::-1]] = 0
         self.pos = (x%self.map_width, y%self.map_height)
+    
+    def clean_tail(self):
+        while len(self.tail) > 0:
+            tmp = self.tail.popleft()
+            self.grid[tmp[::-1]] = 0
     

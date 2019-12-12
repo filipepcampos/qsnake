@@ -57,7 +57,7 @@ def main():
             if player.check_food(food):
                 reward += 10
                 time += 200
-            loop = player.check_wall() and player.check_tail() and time >= 0
+            loop = player.check_death() and time >= 0
             if not loop:
                 reward -= 100
             reward -= 0.1
@@ -82,6 +82,7 @@ def main():
         # Finalize game by appending score and updating epsilon
         epsilon -= EPSILON_DELTA
         scores.append(player.score)
+        player.clean_tail()
         if i % 1 == 0:
             print(f"{i}:{player.score}")
         if not mainloop:

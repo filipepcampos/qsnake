@@ -27,7 +27,7 @@ def main():
         player.change_action(action)
         player.move()
         player.check_food(food)
-        mainloop = player.check_wall() and player.check_tail()
+        mainloop = player.check_death()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
