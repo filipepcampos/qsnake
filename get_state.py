@@ -10,7 +10,7 @@ def get_state(player, food, WIDTH, HEIGHT):
     Returns:
         state (int): Unique number that represents current state 
     '''
-    state_binary = danger_state(player, WIDTH, HEIGHT) + food_state(player.pos, food.pos) + format(player.direction, '02b')
+    state_binary = ( danger_state(player, WIDTH, HEIGHT) + food_state(player.pos, food.pos) + format(player.direction, '02b')) 
     state = int(state_binary, 2)
     return state
 
