@@ -12,7 +12,7 @@ MAP = "map.csv"
 DATA = "./data/data13/"
 
 TOTAL = 1_000
-fps = 30
+fps = 20
 
 def main():
     mainloop = True
