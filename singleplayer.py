@@ -21,7 +21,7 @@ def main():
 
     while mainloop:
         clock.tick(FPS)
-        screen.blit(player.pos, food.pos, player.tail) 
+        screen.blit(player.pos, food.pos, player.tail, player.score) 
 
         action = register_keypress()
         player.change_action(action)
@@ -32,6 +32,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 mainloop = False
+    pygame.quit()
 
 def register_keypress():
     ''' Register keypresses
@@ -39,15 +40,15 @@ def register_keypress():
     Returns:
         action (int): number from [0, 1, 2, 3] that represents next action to take 
     '''
-    keys = pygame.key.get_pressed()
     action = None
-    if keys[pygame.K_UP]:
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_UP] or keys[pygame.K_w]:
         action = 0
-    elif keys[pygame.K_DOWN]:
+    elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
         action = 1
-    elif keys[pygame.K_LEFT]:
+    elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
         action = 2
-    elif keys[pygame.K_RIGHT]:
+    elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
         action = 3
     return action
 

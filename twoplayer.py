@@ -26,7 +26,7 @@ def main():
         player = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
         player_ai = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
         food = Food(WIDTH, HEIGHT, screen.grid)
-        screen.blit(player.pos, food.pos, player.tail, player_ai.pos, player_ai.tail) 
+        screen.blit(player.pos, food.pos, player.tail, player.score, player_ai.pos, player_ai.tail, player_ai.score) 
         action = None
         while action == None and mainloop == True:            
             action = register_keypress(None)
@@ -53,24 +53,33 @@ def main():
             # Check conditions            
             player.check_food(food)
             player_ai.check_food(food)
-            loop = player_ai.check_death(player.pos) and player.check_death(player_ai.pos)
+            player_ai_death, player_death = player_ai.check_death(player.pos), player.check_death(player_ai.pos)
+            loop = player_ai_death and player_death
+            if not player_ai_death and not player_death:
+                print("Tie")
+            elif not player_death:
+                print("AI wins")
+            elif not player_ai_death:
+                print("Player wins")
                    
 
             # Update the screen
-            if loop:
-                screen.blit(player.pos, food.pos, player.tail, player_ai.pos, player_ai.tail)
+            if loop or (not player_ai_death and not player_death):
+                screen.blit(player.pos, food.pos, player.tail, player.score, player_ai.pos, player_ai.tail, player_ai.score)
             
             mainloop = register_quit()
         
         print(f"{player.score}:{player_ai.score}")
         player.clean_tail()
         player_ai.clean_tail()
-        if not mainloop:
-            break
         continue_game = False
         while not continue_game and mainloop:
             mainloop = register_quit()
             continue_game = register_enter()
+        
+        if not mainloop:
+            pygame.quit()
+            break
 
 
 def register_keypress(direction):
@@ -92,12 +101,20 @@ def register_keypress(direction):
     return action
 
 def register_enter():
+    ''' Register if ENTER has been pressed
+    
+    Returns:
+        (bool): True if key has been pressed'''
     keys = pygame.key.get_pressed()
     if keys[pygame.K_SPACE] or keys[pygame.K_RETURN]:
         return True
     return False
 
-def register_quit():
+def register_quit():    
+    ''' Register if QUIT has been pressed
+    
+    Returns:
+        (bool): True if button hasn't been pressed'''
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False

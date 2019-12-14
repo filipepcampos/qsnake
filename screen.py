@@ -34,6 +34,7 @@ class Screen:
         self.grid = self.load_map(MAP)
         if GRAPHICS:    
             pygame.init()
+            self.font = pygame.font.Font("./assets/SIMPLIFICA.ttf", 32)
             self.screen = pygame.display.set_mode((self.real_width, self.real_height))
             self.map_surface = self.draw_map(self.grid)
         
@@ -88,7 +89,7 @@ class Screen:
                     pygame.draw.rect(surface, COLORS["wall"], pygame.Rect(y*self.px_size, x*self.px_size, self.px_size, self.px_size))
         return surface
 
-    def blit(self, player_pos, food_pos, tail, player2_pos=None, tail2=None):
+    def blit(self, player_pos, food_pos, tail, player_score, player2_pos=None, tail2=None, player2_score=None):
         ''' Draw all objects and update the screen
 
         Args:
@@ -98,19 +99,23 @@ class Screen:
         '''
         surface = self.map_surface.copy()
 
+        # Draw player
         tmp_rect = pygame.Rect(player_pos[0] * self.px_size, player_pos[1] * self.px_size, self.px_size, self.px_size)
         pygame.draw.rect(surface, COLORS["player"], tmp_rect) 
         pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
 
+        # Draw food
         tmp_rect.x, tmp_rect.y = food_pos[0] * self.px_size, food_pos[1] * self.px_size
         pygame.draw.rect(surface, COLORS["food"], tmp_rect) 
         pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
 
+        # Draw player tail
         for i in tail:
             tmp_rect.x, tmp_rect.y = i[0] * self.px_size, i[1] * self.px_size
             pygame.draw.rect(surface, COLORS["player"], tmp_rect)
             pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
         
+        # If the game has two players draw the second player
         if player2_pos:
             tmp_rect = pygame.Rect(player2_pos[0] * self.px_size, player2_pos[1] * self.px_size, self.px_size, self.px_size)
             pygame.draw.rect(surface, COLORS["player2"], tmp_rect) 
@@ -120,5 +125,10 @@ class Screen:
                 pygame.draw.rect(surface, COLORS["player2"], tmp_rect)
                 pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
 
+        text = self.font.render(f"Score: {player_score}", True, COLORS["wall"]) if not player2_pos else self.font.render(f"Player: {player_score}         Computer: {player2_score}", True, COLORS["wall"])
+        text_rect = text.get_rect()
+        text_rect.center = (self.real_width // 2, 50)
+
         self.screen.blit(surface, (0, 0))
+        self.screen.blit(text, text_rect)
         pygame.display.flip()

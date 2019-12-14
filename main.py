@@ -64,7 +64,7 @@ def main():
 
             # Update the screen
             if GRAPHICS and loop:
-                screen.blit(player.pos, food.pos, player.tail) 
+                screen.blit(player.pos, food.pos, player.tail, player.score) 
             
             # Train the model
             next_state = get_state(player, food, WIDTH, HEIGHT)
@@ -86,6 +86,7 @@ def main():
         if i % 1 == 0:
             print(f"{i}:{player.score}")
         if not mainloop:
+            pygame.quit()
             break
 
     save_data(q_table, scores)
