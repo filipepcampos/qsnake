@@ -4,21 +4,21 @@ from player import Player
 from screen import Screen
 from food import Food
 from get_state import get_state
+import math
 
 WIDTH = 30
 HEIGHT = 30
 PX_SIZE = 20
 MAP = "map.csv"
-DATA = "./data/data6/"
-
-GRAPHICS = True
-TRAINING = False
+DATA = "./data/data15/"
+GRAPHICS = False
+TRAINING = True
 
 # Training parameters
-TOTAL = 10_000
+TOTAL = 30_000
 EPSILON_DELTA = 1 / TOTAL
 ALPHA = 0.1
-GAMMA = 0.9
+GAMMA = 0.90
 fps = 0
 
 def main():
@@ -83,7 +83,7 @@ def main():
         epsilon -= EPSILON_DELTA
         scores.append(player.score)
         player.clean_tail()
-        if i % 1 == 0:
+        if i % 10 == 0:
             print(f"{i}:{player.score}")
         if not mainloop:
             pygame.quit()
@@ -120,7 +120,7 @@ def load_table():
     if not TRAINING:
         q_table = np.load(DATA + "data.npy")
     else:
-        q_table = np.zeros((4095, 4))
+        q_table = np.zeros((1023, 4))
     return q_table
 
 def choose_action(epsilon, q_table, state):
@@ -153,10 +153,9 @@ def train(q_table, state, next_state, action, reward, player_score):
     Returns:
         q_table (np.array): q_table after calculations
     '''
-    player_score += 1
     old_value = q_table[state][action]
     next_max = np.max(q_table[next_state])
-    new_value = old_value + (player_score/500) * (reward + GAMMA * next_max - old_value)
+    new_value = old_value + ALPHA * (reward + GAMMA * next_max - old_value)
     q_table[state][action] = new_value
     return q_table
 

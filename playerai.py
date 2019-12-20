@@ -8,12 +8,15 @@ from get_state import get_state
 WIDTH = 30
 HEIGHT = 30
 PX_SIZE = 20
+MAP = "map.csv"
+DATA = "./data/data13/"
+
 TOTAL = 1_000
 fps = 20
-MAP = "map.csv"
 
 def main():
     mainloop = True
+    q_table = np.load(DATA + "data.npy")
     clock = pygame.time.Clock()
     screen = Screen(WIDTH, HEIGHT, PX_SIZE, MAP, True)  
 
@@ -21,52 +24,53 @@ def main():
     for i in range(TOTAL):
         # Restart game for another round
         player = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
-        player2 = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
+        player_ai = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
         food = Food(WIDTH, HEIGHT, screen.grid)
-        screen.blit(player.pos, food.pos, player.tail, player.score, player2.pos, player2.tail, player2.score) 
-        action, action2 = None, None
-        while (action == None or action2 == None) and mainloop == True:            
-            action, action2 = register_keypress(None, None)
+        screen.blit(player.pos, food.pos, player.tail, player.score, player_ai.pos, player_ai.tail, player_ai.score) 
+        action = None
+        while action == None and mainloop == True:            
+            action = register_keypress(None)
             mainloop = register_quit()
 
         player.change_action(action)
-        player2.change_action(action2)
-        state = get_state(player2, food, WIDTH, HEIGHT)
+        player_ai.change_action(0)
+        state = get_state(player_ai, food, WIDTH, HEIGHT)
         loop = True
 
         while mainloop and loop:
             clock.tick(fps)
-            state = get_state(player2, food, WIDTH, HEIGHT)
-            # Move player2 and update time
-            action, action2 = register_keypress(player.direction, player2.direction)
-            player2.change_action(action2)
-            player2.move()
+            state = get_state(player_ai, food, WIDTH, HEIGHT)
+            # Move player_ai and update time
+            action = np.argmax(q_table[state]) 
+            player_ai.change_action(action)
+            player_ai.move()
 
             # Move player
+            action = register_keypress(player.direction)
             player.change_action(action)
             player.move()
 
             # Check conditions            
             player.check_food(food)
-            player2.check_food(food)
-            player2_death, player_death = player2.check_death(player.pos), player.check_death(player2.pos)
-            loop = player2_death and player_death
-            if not player2_death and not player_death:
+            player_ai.check_food(food)
+            player_ai_death, player_death = player_ai.check_death(player.pos), player.check_death(player_ai.pos)
+            loop = player_ai_death and player_death
+            if not player_ai_death and not player_death:
                 print("Tie")
             elif not player_death:
                 print("AI wins")
-            elif not player2_death:
+            elif not player_ai_death:
                 print("Player wins")
                    
             # Update the screen
-            if loop or (not player2_death and not player_death):
-                screen.blit(player.pos, food.pos, player.tail, player.score, player2.pos, player2.tail, player2.score)
+            if loop or (not player_ai_death and not player_death):
+                screen.blit(player.pos, food.pos, player.tail, player.score, player_ai.pos, player_ai.tail, player_ai.score)
             
             mainloop = register_quit()
         
-        print(f"{player.score}:{player2.score}")
+        print(f"{player.score}:{player_ai.score}")
         player.clean_tail()
-        player2.clean_tail()
+        player_ai.clean_tail()
         continue_game = False
         while not continue_game and mainloop:
             mainloop = register_quit()
@@ -77,32 +81,23 @@ def main():
             break
 
 
-def register_keypress(direction, direction2):
+def register_keypress(direction):
     ''' Register keypresses and changes player action accordingly
         
     Returns:
         action (int): action corresponding to keypress
     '''
-    action, action2 = direction, direction2
+    action = direction
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_UP]:
+    if keys[pygame.K_UP] or keys[pygame.K_w]:
         action = 0
-    elif keys[pygame.K_DOWN]:
+    elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
         action = 1
-    elif keys[pygame.K_LEFT]:
+    elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
         action = 2
-    elif keys[pygame.K_RIGHT]:
+    elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
         action = 3
-    if keys[pygame.K_w]:
-        action2 = 0
-    elif keys[pygame.K_s]:
-        action2 = 1
-    elif keys[pygame.K_a]:
-        action2 = 2
-    elif keys[pygame.K_d]:
-        action2 = 3
-    
-    return action, action2
+    return action
 
 def register_enter():
     ''' Register if ENTER has been pressed

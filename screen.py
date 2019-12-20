@@ -34,7 +34,8 @@ class Screen:
         self.grid = self.load_map(MAP)
         if GRAPHICS:    
             pygame.init()
-            self.font = pygame.font.Font("./assets/SIMPLIFICA.ttf", 32)
+            # OpenSansCondensed-Light
+            self.font = pygame.font.Font("./assets/OpenSansCondensed-Light.ttf", 32)
             self.screen = pygame.display.set_mode((self.real_width, self.real_height))
             self.map_surface = self.draw_map(self.grid)
         

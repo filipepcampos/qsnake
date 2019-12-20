@@ -16,7 +16,7 @@ Este jogo poderá ser jogado por um humano ou por um agente de A.I baseado em Q-
 
 #### UI
 
-![UI](ui.png)
+![UI](/assets/ui.png)
 
 ### Pacotes
 
@@ -40,6 +40,46 @@ Este jogo poderá ser jogado por um humano ou por um agente de A.I baseado em Q-
       * Morreu -> soma -10
    1. Agir, para cada estado, com a ação com maior *reward*
 1. **MODO JOGADOR-AI AO MESMO TEMPO**
+
+------
+## Método Q-Learning:
+Em cada estado do jogo é mapeado um Q-value para cada ação (Up, Down, Left, Right), quanto maior este valor for melhor a ação é. Estes valores são obtivos através de tentativa e erro de diversas ações sendo a cada uma associada uma recompensa que irá influenciar o Q-value
+
+### Recompensas:
+* Movimento: -0.1
+* Comida: 200
+* Morte: -100
+
+A cada movimento que o jogador realiza está associado uma recompensa negativa de modo a minimizar o número de movimentos até à comida.
+
+### Parâmetros:
+1. **Total**: Número total de jogos a ser executados
+1. **Epsilon**: Fator decisor entre realizar uma ação aleatória (para explorar diferentes estados) e realizar a melhor ação conhecida
+1. **Alpha**: Taxa de aprendizagem, define o impacto de cada iteração sobre os Q-values
+1. **Gamma**: Importância de recompensa a longo prazo
+
+### Estado:
+Cada estado é inicialmente obtido como um número binário de 10 bits, e posteriormente convertido num número decimal
+**0000_0000_00** a **1111_1111_11** (0 a 1023 decimal)
+Os grupos de bits correspondem respetivamente ao Perigo, Comida e Direção
+
+**Perigo**
+Primeiros 4 bits correspondem a 4 valores booleanos correspondente ao perigo nas posições adjacentes ao jogador, Cima, Baixo, Esquerda, Direita, nesta ordem
+
+**Comida**
+Os 4 bits seguintes correspondem à posição relativa da comida em relação ao jogador. (Está a cima, Está a baixo, Está à esquerda, Está à direita). A informação parece redundante pois a comida não poderá se encontrar simultâneamente a cima e a baixo do jogador mas permite centrar o jogador em relação à sua posição, se não estiver a cima nem a baixo, o jogador está centrado
+
+**Direção**
+Número de 2 bits correspondente à direção do movimento do jogador. 00: cima, 01: baixo, 10: esquerda, 11: direita
+
+
+#### Funcionalidade:
+1. No início de cada iteração é associado associado um estado à situação atual do jogo. 
+2. Em seguida é escolhida uma ação. Esta ação poderá ser uma ação aleatória se (um número aleatório entre 0 e 1 < epsilon) ou a melhor ação associada ao estado atual
+3. O jogador movimenta-se e dependendo de o que acontecer será associado uma recompensa
+4. É calculado o novo Q-Value para o estado atual, para a ação tomada através da seguinte fórmula:
+![Q-Learning formula](/assets/formula.png)
+5. Repetir até terminar o número total de jogos
 
 ------
 18/11/2019
