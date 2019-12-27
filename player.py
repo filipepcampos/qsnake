@@ -33,40 +33,24 @@ class Player:
         self.direction = None
 
         self.tail = deque([])
-        #self.tail = []
         self.score = 0
 
     def check_death(self, enemy_pos=None):
-        """Check if player position overlaps a wall or tail
-        
-        Returns:
-            (bool): False if player position overlaps wall or tail, True otherwise
-        """
+        """Check if player position overlaps a wall or tail """
         if self.grid[self.pos[::-1]] == 1 or enemy_pos == self.pos:
             return False
         return True
     
     def check_food(self, food):
-        ''' Check if player position overlaps food\n
-
-        Args:
-            food (Food)
-        
-        Returns:
-            (bool): True if player overlaps food, False otherwise
-        '''
+        ''' Check if player position overlaps food '''
         if self.pos == food.pos:
-            food.reset(self.tail)
+            food.reset()
             self.score += 1
             return True
         return False
         
     def change_action(self, action):
-        ''' Change direction based on input action if it's allowed
-        
-        Args:
-            action (int): action to take
-        '''
+        ''' Change direction based on input action if it's allowed '''
         if action != None:
             if ((self.direction == 0 and action == 1) or (self.direction == 1 and action == 0) or
             (self.direction == 2 and action == 3) or (self.direction == 3 and action == 2)):
@@ -95,6 +79,7 @@ class Player:
         self.pos = (x%self.map_width, y%self.map_height)
     
     def clean_tail(self):
+        ''' Remove tail elements from grid '''
         while len(self.tail) > 0:
             tmp = self.tail.popleft()
             self.grid[tmp[::-1]] = 0

@@ -17,12 +17,8 @@ class Food:
         self.width, self.height, self.grid = WIDTH, HEIGHT, GRID
         self.reset()
     
-    def reset(self, tail=[]):
-        ''' Reset food position
-        
-        Args:
-            tail (collections.deque): optional deque containing player's tail (x, y) positions
-        '''
+    def reset(self):
+        ''' Reset food position '''
         self.pos = np.random.randint(0, self.width), np.random.randint(0, self.height)
-        while self.grid[self.pos[::-1]] == 1 or self.pos in tail:
+        while self.grid[self.pos[::-1]] == 1:
             self.pos = np.random.randint(0, self.width), np.random.randint(0, self.height)

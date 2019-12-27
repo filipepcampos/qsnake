@@ -4,6 +4,7 @@ from player import Player
 from screen import Screen
 from food import Food
 from get_state import get_state
+import menu
 
 WIDTH = 30
 HEIGHT = 30
@@ -11,17 +12,16 @@ PX_SIZE = 20
 MAP = "map.csv"
 DATA = "./data/data13/"
 
-TOTAL = 1_000
 fps = 20
 
 def main():
-    mainloop = True
+    mainloop, go_to_menu = True, False
     q_table = np.load(DATA + "data.npy")
     clock = pygame.time.Clock()
     screen = Screen(WIDTH, HEIGHT, PX_SIZE, MAP, True)  
 
 
-    for i in range(TOTAL):
+    while True:
         # Restart game for another round
         player = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
         player_ai = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
@@ -29,8 +29,10 @@ def main():
         screen.blit(player.pos, food.pos, player.tail, player.score, player_ai.pos, player_ai.tail, player_ai.score) 
         action = None
         while action == None and mainloop == True:            
-            action = register_keypress(None)
+            action, go_to_menu = register_keypress(None)
             mainloop = register_quit()
+            if go_to_menu:
+                mainloop = False
 
         player.change_action(action)
         player_ai.change_action(0)
@@ -46,7 +48,7 @@ def main():
             player_ai.move()
 
             # Move player
-            action = register_keypress(player.direction)
+            action, go_to_menu = register_keypress(player.direction)
             player.change_action(action)
             player.move()
 
@@ -61,20 +63,29 @@ def main():
                 print("AI wins")
             elif not player_ai_death:
                 print("Player wins")
-                   
+
+                     
             # Update the screen
             if loop or (not player_ai_death and not player_death):
                 screen.blit(player.pos, food.pos, player.tail, player.score, player_ai.pos, player_ai.tail, player_ai.score)
             
             mainloop = register_quit()
+            if go_to_menu:
+                loop, mainloop = False, False
         
         print(f"{player.score}:{player_ai.score}")
         player.clean_tail()
         player_ai.clean_tail()
         continue_game = False
+        if go_to_menu:
+            menu.main()
         while not continue_game and mainloop:
             mainloop = register_quit()
             continue_game = register_enter()
+            _, go_to_menu = register_keypress(None)
+            if go_to_menu:
+                mainloop = False
+                menu.main()
         
         if not mainloop:
             pygame.quit()
@@ -87,7 +98,7 @@ def register_keypress(direction):
     Returns:
         action (int): action corresponding to keypress
     '''
-    action = direction
+    action, go_to_menu = direction, False
     keys = pygame.key.get_pressed()
     if keys[pygame.K_UP] or keys[pygame.K_w]:
         action = 0
@@ -97,7 +108,9 @@ def register_keypress(direction):
         action = 2
     elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
         action = 3
-    return action
+    elif keys[pygame.K_ESCAPE]:
+        go_to_menu = True
+    return action, go_to_menu
 
 def register_enter():
     ''' Register if ENTER has been pressed

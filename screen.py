@@ -41,14 +41,7 @@ class Screen:
         
 
     def load_map(self, MAP):
-        ''' Load map from CSV if it exists, a empty map if not
-        
-        Args:
-            MAP (str): relative location to CSV file where map is contained
-        
-        Returns:
-            grid (np.array): numpy array that represents the map
-        '''
+        ''' Load map from CSV if it exists, a empty map if not '''
         if MAP:            
             grid = np.loadtxt(MAP)
             if grid.shape != (self.height, self.width):
@@ -58,31 +51,16 @@ class Screen:
         return grid
 
     def create_map(self):
-        ''' Create a new map enclosed by walls
-
-        Returns:
-            grid (np.array): numpy array that represents the map
-        '''
+        ''' Create a new map enclosed by walls '''
         grid = np.zeros((self.height, self.width))
         grid[:,0], grid[:,-1] = 1, 1
         grid[0,], grid[-1,] = 1, 1
         return grid
 
     def draw_map(self, grid):
-        ''' Draw all blocks from the map to a surface 
-        
-        Args:
-            grid (np.array): numpy array that represents the map
-        
-        Returns:
-            surface (pygame.Surface): surface with all map walls drawn on top of background
-        '''
+        ''' Draw all blocks from the map to a surface '''
         surface = pygame.Surface((self.real_width, self.real_height))
         surface.fill(COLORS["background"])
-        # for i, row in enumerate(grid):
-        #     for j, value in enumerate(row):
-        #         if value == 1:
-        #             pygame.draw.rect(surface, COLORS["wall"], pygame.Rect(j*self.px_size, i*self.px_size, self.px_size, self.px_size))
         rows, cols = grid.shape[0], grid.shape[1]
         for x in range(0, rows):
             for y in range(0, cols):
@@ -91,13 +69,7 @@ class Screen:
         return surface
 
     def blit(self, player_pos, food_pos, tail, player_score, player2_pos=None, tail2=None, player2_score=None):
-        ''' Draw all objects and update the screen
-
-        Args:
-            player_pos (tuple): player (x, y) position
-            food_pos (tuple): food (x, y) position
-            tail (collections.deque): contains all (x, y) positions of all elements of the player's tail
-        '''
+        ''' Draw all objects and update the screen '''
         surface = self.map_surface.copy()
 
         # Draw player
