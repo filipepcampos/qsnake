@@ -7,13 +7,12 @@ import ai
 HEIGHT = 600
 WIDTH = 600
 
-def main():
+def main(mainloop=True):
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     surface = pygame.Surface((WIDTH, HEIGHT))
     surface.fill((245, 243, 220))
     screen.blit(surface, (0, 0))
-    mainloop = True
     while mainloop:
         pygame.display.flip()
         for event in pygame.event.get():
