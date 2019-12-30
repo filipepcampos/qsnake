@@ -5,6 +5,8 @@ COLORS = {"background": (245, 243, 220),
         "wall": (40, 40, 40),        
         "player": (166, 255, 175),
         "player2": (143, 204, 254),
+        "winnerplayer1": (95, 244, 112),
+        "winnerplayer2": (12, 167, 244),
         "border": (30, 30, 30),
         "food": (255, 141, 103)}
 
@@ -68,8 +70,12 @@ class Screen:
                     pygame.draw.rect(surface, COLORS["wall"], pygame.Rect(y*self.px_size, x*self.px_size, self.px_size, self.px_size))
         return surface
 
-    def blit(self, player_pos, food_pos, tail, player_score, player2_pos=None, tail2=None, player2_score=None, name1="Player", name2="Computer"):
+    def blit(self, player, food, player2=None, winner=None, name1="Player", name2="Computer"):
         ''' Draw all objects and update the screen '''
+        player_pos, tail, player_score = player.pos, player.tail, player.score
+        food_pos = food.pos
+        if player2:
+            player2_pos, tail2, player2_score = player2.pos, player2.tail, player2.score
         surface = self.map_surface.copy()
 
         # Draw player
@@ -89,7 +95,7 @@ class Screen:
             pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
         
         # If the game has two players draw the second player
-        if player2_pos:
+        if player2:
             tmp_rect = pygame.Rect(player2_pos[0] * self.px_size, player2_pos[1] * self.px_size, self.px_size, self.px_size)
             pygame.draw.rect(surface, COLORS["player2"], tmp_rect) 
             pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
@@ -98,10 +104,22 @@ class Screen:
                 pygame.draw.rect(surface, COLORS["player2"], tmp_rect)
                 pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
 
-        text = self.font.render(f"Score: {player_score}", True, COLORS["wall"]) if not player2_pos else self.font.render(f"{name1}: {player_score}         {name2}: {player2_score}", True, COLORS["wall"])
+        text = self.font.render(f"Score: {player_score}", True, COLORS["wall"]) if not player2 else self.font.render(f"{name1}: {player_score}         {name2}: {player2_score}", True, COLORS["wall"])
         text_rect = text.get_rect()
         text_rect.center = (self.real_width // 2, 50)
 
         self.screen.blit(surface, (0, 0))
+        # tmp = pygame.Surface((560, 560))
+        # tmp.set_alpha(75)
+        # tmp.fill((255, 255, 255))
+        # self.screen.blit(tmp, (20, 20))
         self.screen.blit(text, text_rect)
         pygame.display.flip()
+    
+    def draw_alpha(self, winner=None):
+        if winner:
+            tmp = pygame.Surface((560, 560))
+            tmp.set_alpha(75)
+            tmp.fill(COLORS["winner" + winner])
+            self.screen.blit(tmp, (20, 20))
+            pygame.display.flip()

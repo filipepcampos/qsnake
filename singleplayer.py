@@ -9,22 +9,21 @@ from keypress import *
 WIDTH = 30
 HEIGHT = 30
 PX_SIZE = 20
-MAP = "map.csv"
 FPS = 20
 
 def main():
-    screen = Screen(WIDTH, HEIGHT, PX_SIZE, MAP) 
+    screen = Screen(WIDTH, HEIGHT, PX_SIZE, None) 
     mainloop, quit_game = True, False
     clock = pygame.time.Clock()
 
     while mainloop:
         player = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
         food = Food(WIDTH, HEIGHT, screen.grid)  
-        screen.blit(player.pos, food.pos, player.tail, player.score)
+        screen.blit(player, food)
         loop = True
         while mainloop and loop:
             clock.tick(FPS)
-            screen.blit(player.pos, food.pos, player.tail, player.score) 
+            screen.blit(player, food) 
 
             action = register_keypress()
             player.change_action(action)

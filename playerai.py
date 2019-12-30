@@ -25,7 +25,7 @@ def main():
         player = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
         player_ai = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
         food = Food(WIDTH, HEIGHT, screen.grid)
-        screen.blit(player.pos, food.pos, player.tail, player.score, player_ai.pos, player_ai.tail, player_ai.score) 
+        screen.blit(player, food, player_ai) 
         
         action, quit_game, mainloop = wait_start(mainloop, quit_game)
 
@@ -57,7 +57,7 @@ def main():
             
             # Update the screen
             if loop or (not player_ai_death and not player_death):
-                screen.blit(player.pos, food.pos, player.tail, player.score, player_ai.pos, player_ai.tail, player_ai.score)
+                screen.blit(player, food, player_ai)
             
             mainloop = not register_esc()
             quit_game = register_quit()
@@ -66,6 +66,7 @@ def main():
         
         player.clean_tail()
         player_ai.clean_tail()
+        screen.draw_alpha(winner="player1")
         mainloop, quit_game = wait_continue(mainloop, quit_game)        
     menu.main(not quit_game)
 

@@ -10,19 +10,18 @@ WIDTH = 30
 HEIGHT = 30
 PX_SIZE = 20
 fps = 20
-MAP = "map.csv"
 
 def main():
     mainloop = True
     clock = pygame.time.Clock()
-    screen = Screen(WIDTH, HEIGHT, PX_SIZE, MAP, True)  
+    screen = Screen(WIDTH, HEIGHT, PX_SIZE, None, True)  
 
     while True:
         # Restart game for another round
         player = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
         player2 = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
         food = Food(WIDTH, HEIGHT, screen.grid)
-        screen.blit(player.pos, food.pos, player.tail, player.score, player2.pos, player2.tail, player2.score, name1="Player1", name2="Player2") 
+        screen.blit(player, food, player2, name1="Player1", name2="Player2") 
         action, action2 = None, None
         while (action == None or action2 == None) and mainloop == True:            
             action, action2, go_to_menu = register_keypress(action, action2)
@@ -59,7 +58,7 @@ def main():
                    
             # Update the screen
             if loop or (not player2_death and not player_death):
-                screen.blit(player.pos, food.pos, player.tail, player.score, player2.pos, player2.tail, player2.score, name1="Player1", name2="Player2")
+                screen.blit(player, food, player2, name1="Player1", name2="Player2")
             
             mainloop = register_quit()
             if go_to_menu:

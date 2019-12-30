@@ -65,7 +65,7 @@ def main():
 
             # Update the screen
             if GRAPHICS and loop:
-                screen.blit(player.pos, food.pos, player.tail, player.score) 
+                screen.blit(player, food) 
             
             # Train the model
             next_state = get_state(player, food, WIDTH, HEIGHT)
