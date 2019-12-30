@@ -68,7 +68,7 @@ class Screen:
                     pygame.draw.rect(surface, COLORS["wall"], pygame.Rect(y*self.px_size, x*self.px_size, self.px_size, self.px_size))
         return surface
 
-    def blit(self, player_pos, food_pos, tail, player_score, player2_pos=None, tail2=None, player2_score=None):
+    def blit(self, player_pos, food_pos, tail, player_score, player2_pos=None, tail2=None, player2_score=None, name1="Player", name2="Computer"):
         ''' Draw all objects and update the screen '''
         surface = self.map_surface.copy()
 
@@ -98,7 +98,7 @@ class Screen:
                 pygame.draw.rect(surface, COLORS["player2"], tmp_rect)
                 pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
 
-        text = self.font.render(f"Score: {player_score}", True, COLORS["wall"]) if not player2_pos else self.font.render(f"Player: {player_score}         Computer: {player2_score}", True, COLORS["wall"])
+        text = self.font.render(f"Score: {player_score}", True, COLORS["wall"]) if not player2_pos else self.font.render(f"{name1}: {player_score}         {name2}: {player2_score}", True, COLORS["wall"])
         text_rect = text.get_rect()
         text_rect.center = (self.real_width // 2, 50)
 

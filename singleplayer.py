@@ -14,7 +14,7 @@ FPS = 20
 
 def main():
     screen = Screen(WIDTH, HEIGHT, PX_SIZE, MAP) 
-    mainloop, loop, quit_game = True, True, False
+    mainloop, quit_game = True, False
     clock = pygame.time.Clock()
 
     while mainloop:
@@ -22,7 +22,7 @@ def main():
         food = Food(WIDTH, HEIGHT, screen.grid)  
         screen.blit(player.pos, food.pos, player.tail, player.score)
         loop = True
-        while loop:
+        while mainloop and loop:
             clock.tick(FPS)
             screen.blit(player.pos, food.pos, player.tail, player.score) 
 
@@ -32,22 +32,25 @@ def main():
             player.check_food(food)
             loop = player.check_death()
 
-            quit_game = not register_quit()
+            quit_game = register_quit()
+            mainloop = not register_esc()
             if quit_game: 
                 mainloop = False
-                loop = False
         
         player.clean_tail()
-        mainloop = wait_continue(mainloop)
-    menu.main(quit_game)
+        mainloop, quit_game = wait_continue(mainloop, quit_game)
+    menu.main(not quit_game)
 
-def wait_continue(mainloop):
-    ''' Wait and for continue input '''
+def wait_continue(mainloop, quit_game):
+    ''' Wait for input at the end of the game '''
     continue_game = False
     while not continue_game and mainloop:
-        mainloop = register_quit()
+        mainloop = not register_esc()
         continue_game = register_enter()
-    return mainloop
+        quit_game = register_quit()
+        if quit_game:
+            mainloop = False
+    return mainloop, quit_game
 
 
 if __name__ == "__main__":

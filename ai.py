@@ -9,7 +9,6 @@ import menu
 WIDTH = 30
 HEIGHT = 30
 PX_SIZE = 20
-MAP = "map.csv"
 DATA = "./data/data15/"
 #DATA = "./data/data6/"
 GRAPHICS = True
@@ -30,7 +29,7 @@ def main():
 
     if GRAPHICS:
         clock = pygame.time.Clock()
-    screen = Screen(WIDTH, HEIGHT, PX_SIZE, MAP, GRAPHICS)  
+    screen = Screen(WIDTH, HEIGHT, PX_SIZE, None, GRAPHICS)  
 
     epsilon = 1 if TRAINING else 0
 
@@ -86,8 +85,6 @@ def main():
         epsilon -= EPSILON_DELTA
         scores.append(player.score)
         player.clean_tail()
-        if i % 10 == 0:
-            print(f"{i}:{player.score}")
         if go_to_menu:
             menu.main()
         if not mainloop:

@@ -5,34 +5,29 @@ from screen import Screen
 from food import Food
 from get_state import get_state
 import menu
+from keypress import *
 
 WIDTH = 30
 HEIGHT = 30
 PX_SIZE = 20
-MAP = "map.csv"
 DATA = "./data/data13/"
 
 fps = 20
 
 def main():
-    mainloop, go_to_menu = True, False
+    mainloop, quit_game = True, False
     q_table = np.load(DATA + "data.npy")
     clock = pygame.time.Clock()
-    screen = Screen(WIDTH, HEIGHT, PX_SIZE, MAP, True)  
+    screen = Screen(WIDTH, HEIGHT, PX_SIZE, None, True)  
 
-
-    while True:
+    while mainloop:
         # Restart game for another round
         player = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
         player_ai = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
         food = Food(WIDTH, HEIGHT, screen.grid)
         screen.blit(player.pos, food.pos, player.tail, player.score, player_ai.pos, player_ai.tail, player_ai.score) 
-        action = None
-        while action == None and mainloop == True:            
-            action, go_to_menu = register_keypress(None)
-            mainloop = register_quit()
-            if go_to_menu:
-                mainloop = False
+        
+        action, quit_game, mainloop = wait_start(mainloop, quit_game)
 
         player.change_action(action)
         player_ai.change_action(0)
@@ -48,7 +43,7 @@ def main():
             player_ai.move()
 
             # Move player
-            action, go_to_menu = register_keypress(player.direction)
+            action = register_keypress(player.direction)
             player.change_action(action)
             player.move()
 
@@ -57,80 +52,53 @@ def main():
             player_ai.check_food(food)
             player_ai_death, player_death = player_ai.check_death(player.pos), player.check_death(player_ai.pos)
             loop = player_ai_death and player_death
-            if not player_ai_death and not player_death:
-                print("Tie")
-            elif not player_death:
-                print("AI wins")
-            elif not player_ai_death:
-                print("Player wins")
-
-                     
+            if not player_ai_death or not player_death:
+                print_winner(player, player_ai, player_death, player_ai_death)
+            
             # Update the screen
             if loop or (not player_ai_death and not player_death):
                 screen.blit(player.pos, food.pos, player.tail, player.score, player_ai.pos, player_ai.tail, player_ai.score)
             
-            mainloop = register_quit()
-            if go_to_menu:
-                loop, mainloop = False, False
+            mainloop = not register_esc()
+            quit_game = register_quit()
+            if quit_game:
+                mainloop = False
         
-        print(f"{player.score}:{player_ai.score}")
         player.clean_tail()
         player_ai.clean_tail()
-        continue_game = False
-        if go_to_menu:
-            menu.main()
-        while not continue_game and mainloop:
-            mainloop = register_quit()
-            continue_game = register_enter()
-            _, go_to_menu = register_keypress(None)
-            if go_to_menu:
-                mainloop = False
-                menu.main()
-        
-        if not mainloop:
-            pygame.quit()
-            break
+        mainloop, quit_game = wait_continue(mainloop, quit_game)        
+    menu.main(not quit_game)
 
+def wait_start(mainloop, quit_game):
+    ''' Wait for input at the start of the game '''
+    action = None
+    while action == None and mainloop == True:            
+        action = register_keypress()
+        quit_game = register_quit()
+        mainloop = not register_esc()
+        if quit_game:
+            mainloop = False
+    return action, quit_game, mainloop
 
-def register_keypress(direction):
-    ''' Register keypresses and changes player action accordingly
-        
-    Returns:
-        action (int): action corresponding to keypress
-    '''
-    action, go_to_menu = direction, False
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_UP] or keys[pygame.K_w]:
-        action = 0
-    elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
-        action = 1
-    elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
-        action = 2
-    elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-        action = 3
-    elif keys[pygame.K_ESCAPE]:
-        go_to_menu = True
-    return action, go_to_menu
+def wait_continue(mainloop, quit_game):
+    ''' Wait for input at the end of the game '''
+    continue_game = False
+    while not continue_game and mainloop:
+        mainloop = not register_esc()
+        continue_game = register_enter()
+        quit_game = register_quit()
+        if quit_game:
+            mainloop = False
+    return mainloop, quit_game
 
-def register_enter():
-    ''' Register if ENTER has been pressed
-    
-    Returns:
-        (bool): True if key has been pressed'''
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_SPACE] or keys[pygame.K_RETURN]:
-        return True
-    return False
-
-def register_quit():    
-    ''' Register if QUIT has been pressed
-    
-    Returns:
-        (bool): True if button hasn't been pressed'''
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            return False
-    return True
+def print_winner(player, player_ai, player_death, player_ai_death):
+    #! Change to correct scoring
+    if not player_ai_death and not player_death:
+        print("Tie")
+    elif not player_death:
+        print("AI wins")
+    elif not player_ai_death:
+        print("Player wins")
 
 if __name__ == "__main__":
     main() 

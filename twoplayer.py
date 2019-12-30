@@ -22,7 +22,7 @@ def main():
         player = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
         player2 = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
         food = Food(WIDTH, HEIGHT, screen.grid)
-        screen.blit(player.pos, food.pos, player.tail, player.score, player2.pos, player2.tail, player2.score) 
+        screen.blit(player.pos, food.pos, player.tail, player.score, player2.pos, player2.tail, player2.score, name1="Player1", name2="Player2") 
         action, action2 = None, None
         while (action == None or action2 == None) and mainloop == True:            
             action, action2, go_to_menu = register_keypress(action, action2)
@@ -59,13 +59,12 @@ def main():
                    
             # Update the screen
             if loop or (not player2_death and not player_death):
-                screen.blit(player.pos, food.pos, player.tail, player.score, player2.pos, player2.tail, player2.score)
+                screen.blit(player.pos, food.pos, player.tail, player.score, player2.pos, player2.tail, player2.score, name1="Player1", name2="Player2")
             
             mainloop = register_quit()
             if go_to_menu:
                 loop, mainloop = False, False
         
-        print(f"{player.score}:{player2.score}")
         player.clean_tail()
         player2.clean_tail()
         continue_game = False
