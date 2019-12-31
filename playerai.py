@@ -52,13 +52,16 @@ def main():
             player_ai.check_food(food)
             player_ai_death, player_death = player_ai.check_death(player.pos), player.check_death(player_ai.pos)
             loop = player_ai_death and player_death
-            if not player_ai_death or not player_death:
-                print_winner(player, player_ai, player_death, player_ai_death)
+            if not loop:
+                winner = get_winner(player, player_ai, player_death, player_ai_death)
+                screen.draw_alpha(winner=winner)
             
             # Update the screen
-            if loop or (not player_ai_death and not player_death):
+            if loop: 
                 screen.blit(player, food, player_ai)
-            
+            if player.pos == player_ai.pos:
+                screen.blit(player, food, player_ai, collision="col")
+
             mainloop = not register_esc()
             quit_game = register_quit()
             if quit_game:
@@ -66,7 +69,6 @@ def main():
         
         player.clean_tail()
         player_ai.clean_tail()
-        screen.draw_alpha(winner="player1")
         mainloop, quit_game = wait_continue(mainloop, quit_game)        
     menu.main(not quit_game)
 
@@ -92,14 +94,16 @@ def wait_continue(mainloop, quit_game):
             mainloop = False
     return mainloop, quit_game
 
-def print_winner(player, player_ai, player_death, player_ai_death):
-    #! Change to correct scoring
+def get_winner(player, player_ai, player_death, player_ai_death):
+    ''' Return winner of the game '''
+    p1, p2 = player.score, player_ai.score
     if not player_ai_death and not player_death:
-        print("Tie")
+        pass
     elif not player_death:
-        print("AI wins")
+        p2 += 5
     elif not player_ai_death:
-        print("Player wins")
+        p1 += 5
+    return "player1" if p1 > p2 else "player2" if p2 > p1 else None
 
 if __name__ == "__main__":
     main() 

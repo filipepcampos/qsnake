@@ -13,6 +13,33 @@ def register_keypress(action=None):
         action = 3
     return action
 
+def register_keypress2(direction, direction2):
+    ''' Register keypresses and changes player action accordingly
+        
+    Returns:
+        action (int): action corresponding to keypress
+    '''
+    action, action2 = direction, direction2
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_UP]:
+        action = 0
+    elif keys[pygame.K_DOWN]:
+        action = 1
+    elif keys[pygame.K_LEFT]:
+        action = 2
+    elif keys[pygame.K_RIGHT]:
+        action = 3
+    if keys[pygame.K_w]:
+        action2 = 0
+    elif keys[pygame.K_s]:
+        action2 = 1
+    elif keys[pygame.K_a]:
+        action2 = 2
+    elif keys[pygame.K_d]:
+        action2 = 3
+    
+    return action, action2
+
 def register_enter():
     ''' Register if ENTER or SPACE has been pressed '''
     keys = pygame.key.get_pressed()

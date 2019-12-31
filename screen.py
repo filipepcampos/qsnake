@@ -5,6 +5,7 @@ COLORS = {"background": (245, 243, 220),
         "wall": (40, 40, 40),        
         "player": (166, 255, 175),
         "player2": (143, 204, 254),
+        "player2col": (255, 141, 103),
         "winnerplayer1": (95, 244, 112),
         "winnerplayer2": (12, 167, 244),
         "border": (30, 30, 30),
@@ -70,7 +71,7 @@ class Screen:
                     pygame.draw.rect(surface, COLORS["wall"], pygame.Rect(y*self.px_size, x*self.px_size, self.px_size, self.px_size))
         return surface
 
-    def blit(self, player, food, player2=None, winner=None, name1="Player", name2="Computer"):
+    def blit(self, player, food, player2=None, winner=None, collision="", name1="Player", name2="Computer"):
         ''' Draw all objects and update the screen '''
         player_pos, tail, player_score = player.pos, player.tail, player.score
         food_pos = food.pos
@@ -97,7 +98,7 @@ class Screen:
         # If the game has two players draw the second player
         if player2:
             tmp_rect = pygame.Rect(player2_pos[0] * self.px_size, player2_pos[1] * self.px_size, self.px_size, self.px_size)
-            pygame.draw.rect(surface, COLORS["player2"], tmp_rect) 
+            pygame.draw.rect(surface, COLORS["player2" + collision], tmp_rect) 
             pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
             for i in tail2:
                 tmp_rect.x, tmp_rect.y = i[0] * self.px_size, i[1] * self.px_size
