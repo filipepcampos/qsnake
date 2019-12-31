@@ -14,11 +14,7 @@ def register_keypress(action=None):
     return action
 
 def register_keypress2(direction, direction2):
-    ''' Register keypresses and changes player action accordingly
-        
-    Returns:
-        action (int): action corresponding to keypress
-    '''
+    ''' Register keypresses and changes player action accordingly '''
     action, action2 = direction, direction2
     keys = pygame.key.get_pressed()
     if keys[pygame.K_UP]:

@@ -110,10 +110,6 @@ class Screen:
         text_rect.center = (self.real_width // 2, 50)
 
         self.screen.blit(surface, (0, 0))
-        # tmp = pygame.Surface((560, 560))
-        # tmp.set_alpha(75)
-        # tmp.fill((255, 255, 255))
-        # self.screen.blit(tmp, (20, 20))
         self.screen.blit(text, text_rect)
         pygame.display.flip()
     
