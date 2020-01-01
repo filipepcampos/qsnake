@@ -32,12 +32,12 @@ Este jogo poderá ser jogado por um humano ou por um agente de A.I baseado em Q-
    1. ~~Criar "cauda" do jogador (lista)~~
 1. ~~**OPÇÃO JOGADOR CONTROLADO POR AI (Q-Learning)**~~
    1. ~~Traduzir jogo em estados básicos~~
-      * Criar uma matriz estados -> acções
+      *  ~~Criar uma matriz estados -> acções~~
    1. ~~Atualizar essa matriz com a *reward* que o jogador recebeu~~
-      * Para já, a snake continua a ser controlada pelo ser humano
-      * Não aconteceu nada -> soma 0
-      * Apanhou comida -> soma 1
-      * Morreu -> soma -10
+      * ~~Para já, a snake continua a ser controlada pelo ser humano~~
+      * ~~Não aconteceu nada -> soma 0~~
+      * ~~Apanhou comida -> soma 1~~
+      * ~~Morreu -> soma -10~~
    1. ~~Agir, para cada estado, com a ação com maior *reward*~~
 1. ~~**MODO JOGADOR-AI AO MESMO TEMPO**~~
 
