@@ -25,21 +25,21 @@ Este jogo poderá ser jogado por um humano ou por um agente de A.I baseado em Q-
 
 ### Tarefas
 
-1. **MATRIZ NxN**
+1. ~~**MATRIZ NxN**~~
    1. ~~Desenhar~~
    1. ~~Teclas jogador~~
    1. ~~Desenhar comida / colisão~~
    1. ~~Criar "cauda" do jogador (lista)~~
-1. **OPÇÃO JOGADOR CONTROLADO POR AI (Q-Learning)**
-   1. Traduzir jogo em estados básicos
+1. ~~**OPÇÃO JOGADOR CONTROLADO POR AI (Q-Learning)**~~
+   1. ~~Traduzir jogo em estados básicos~~
       * Criar uma matriz estados -> acções
-   1. Atualizar essa matriz com a *reward* que o jogador recebeu
+   1. ~~Atualizar essa matriz com a *reward* que o jogador recebeu~~
       * Para já, a snake continua a ser controlada pelo ser humano
       * Não aconteceu nada -> soma 0
       * Apanhou comida -> soma 1
       * Morreu -> soma -10
-   1. Agir, para cada estado, com a ação com maior *reward*
-1. **MODO JOGADOR-AI AO MESMO TEMPO**
+   1. ~~Agir, para cada estado, com a ação com maior *reward*~~
+1. ~~**MODO JOGADOR-AI AO MESMO TEMPO**~~
 
 ------
 ## Método Q-Learning:
@@ -64,12 +64,15 @@ Cada estado é inicialmente obtido como um número binário de 10 bits, e poster
 Os grupos de bits correspondem respetivamente ao Perigo, Comida e Direção
 
 **Perigo**
-Primeiros 4 bits correspondem a 4 valores booleanos correspondente ao perigo nas posições adjacentes ao jogador, Cima, Baixo, Esquerda, Direita, nesta ordem
+
+Corresponde a 4 valores booleanos associados ao perigo nas posições adjacentes ao jogador (cima, baixo, esquerda, direita)
 
 **Comida**
-Os 4 bits seguintes correspondem à posição relativa da comida em relação ao jogador. (Está a cima, Está a baixo, Está à esquerda, Está à direita). A informação parece redundante pois a comida não poderá se encontrar simultâneamente a cima e a baixo do jogador mas permite centrar o jogador em relação à sua posição, se não estiver a cima nem a baixo, o jogador está centrado
+
+Corresponde à posição relativa da comida em relação ao jogador. (a cima, a baixo, à esquerda, à direita). A informação parece redundante pois a comida não poderá se encontrar simultâneamente a cima e a baixo do jogador mas, no entanto, permite centrar o jogador em relação à comida, se não estiver a cima nem a baixo, o jogador está centrado
 
 **Direção**
+
 Número de 2 bits correspondente à direção do movimento do jogador. 00: cima, 01: baixo, 10: esquerda, 11: direita
 
 
