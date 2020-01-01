@@ -5,6 +5,7 @@ from screen import Screen
 from food import Food
 from get_state import get_state
 import menu
+from keypress import register_quit
 
 WIDTH = 30
 HEIGHT = 30
@@ -77,16 +78,15 @@ def main():
                 # Register keyboard and quit events
                 fps, go_to_menu = register_keypress(fps)
                 if go_to_menu: loop, mainloop = False, False
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        mainloop = False
+                mainloop = not register_quit()
     
         # Finalize game by appending score and updating epsilon
         epsilon -= EPSILON_DELTA
         scores.append(player.score)
         player.clean_tail()
         if go_to_menu:
-            menu.main()
+            menu.menu()
+            break
         if not mainloop:
             pygame.quit()
             break

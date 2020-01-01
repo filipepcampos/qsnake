@@ -1,18 +1,7 @@
 import numpy as np
 class Food:
-    ''' Food object
-
-    Args:
-        WIDTH (int): map width
-        HEIGHT (int): map height
-        grid (np.array): numpy array that represents the map
+    ''' Food object '''
     
-    Attributes:
-        width (int): contains the value of WIDTH
-        height (int): contains the value of HEIGHT
-        grid (np.array): contains the value of GRID
-        pos (tuple): food (x, y) position
-    '''
     def __init__(self, WIDTH, HEIGHT, GRID):
         self.width, self.height, self.grid = WIDTH, HEIGHT, GRID
         self.reset()

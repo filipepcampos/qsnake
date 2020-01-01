@@ -33,6 +33,7 @@ def main():
 
         while mainloop and loop:
             clock.tick(fps)
+            old_player_pos, old_player2_pos = player.pos, player2.pos
             # Move player2 and update time
             action, action2 = register_keypress(player.direction, player2.direction)
             player2.change_action(action2)
@@ -46,6 +47,9 @@ def main():
             player.check_food(food)
             player2.check_food(food)
             player2_death, player_death = player2.check_death(player.pos), player.check_death(player2.pos)
+            swap = (player.pos == old_player2_pos and player2.pos == old_player_pos)
+            if swap:
+                player_death, player2_death = False, False
             loop = player2_death and player_death
             if not loop:
                 winner = get_winner(player, player2, player_death, player2_death)
@@ -56,6 +60,8 @@ def main():
                 screen.blit(player, food, player2, name1="Player1", name2="Player2")
             if player2.pos == player.pos:
                 screen.blit(player, food, player2, name1="Player1", name2="Player2", collision="col")
+            elif swap:
+                screen.blit(player, food, player2, name1="Player1", name2="Player2", collision="col", collision2="col")
             
             mainloop = not register_esc()
             quit_game = register_quit()
@@ -67,7 +73,7 @@ def main():
         continue_game = False
         mainloop, quit_game = wait_continue(mainloop, quit_game)
         
-    menu.main(not quit_game)
+    menu.menu(not quit_game)
 
 
 def wait_start(mainloop):

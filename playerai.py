@@ -37,6 +37,7 @@ def main():
         while mainloop and loop:
             clock.tick(fps)
             state = get_state(player_ai, food, WIDTH, HEIGHT)
+            old_player_pos, old_player_ai_pos = player.pos, player_ai.pos
             # Move player_ai and update time
             action = np.argmax(q_table[state]) 
             player_ai.change_action(action)
@@ -50,7 +51,10 @@ def main():
             # Check conditions            
             player.check_food(food)
             player_ai.check_food(food)
-            player_ai_death, player_death = player_ai.check_death(player.pos), player.check_death(player_ai.pos)
+            player_ai_death, player_death = player_ai.check_death(player.pos, old_player_pos), player.check_death(player_ai.pos, old_player_ai_pos)
+            swap = (player.pos == old_player_ai_pos and player_ai.pos == old_player_pos)
+            if swap:
+                player_death, player_ai_death = False, False
             loop = player_ai_death and player_death
             if not loop:
                 winner = get_winner(player, player_ai, player_death, player_ai_death)
@@ -61,6 +65,8 @@ def main():
                 screen.blit(player, food, player_ai)
             if player.pos == player_ai.pos:
                 screen.blit(player, food, player_ai, collision="col")
+            elif swap:
+                screen.blit(player, food, player_ai, collision="col", collision2="col")
 
             mainloop = not register_esc()
             quit_game = register_quit()
@@ -70,7 +76,7 @@ def main():
         player.clean_tail()
         player_ai.clean_tail()
         mainloop, quit_game = wait_continue(mainloop, quit_game)        
-    menu.main(not quit_game)
+    menu.menu(not quit_game)
 
 def wait_start(mainloop, quit_game):
     ''' Wait for input at the start of the game '''

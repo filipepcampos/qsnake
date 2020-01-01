@@ -3,24 +3,7 @@ from collections import deque
 
 
 class Player:
-    '''Snake object
-
-    Args:
-        WIDTH (int): map width
-        HEIGHT (int): map height
-        PX_SIZE (int): size of each pixel
-        GRID (np.array): grid that represents the map
-
-    Attributes:
-        px_size (int): contains value of PX_SIZE
-        map_width (int): contains value of WIDTH
-        map_height (int): contains value of HEIGHT
-        grid (np.array): contains value of GRID
-        pos (tuple): player (x, y) coordinates, with x in range(0, map_width) and y in range(0, map_height)
-        direction (int): player direction
-        tail (deque): contains all positions (tuple) of each block of the tail 
-        score (int): quantity of food eaten
-    '''
+    '''Snake object '''
     
     def __init__(self, WIDTH, HEIGHT, PX_SIZE, GRID):
         self.px_size = PX_SIZE
@@ -35,9 +18,9 @@ class Player:
         self.tail = deque([])
         self.score = 0
 
-    def check_death(self, enemy_pos=None):
+    def check_death(self, enemy_pos=None, enemy_old_pos=None):
         """Check if player position overlaps a wall or tail """
-        if self.grid[self.pos[::-1]] == 1 or enemy_pos == self.pos:
+        if self.grid[self.pos[::-1]] == 1 or enemy_pos == self.pos or enemy_old_pos == self.pos:
             return False
         return True
     

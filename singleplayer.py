@@ -38,7 +38,7 @@ def main():
         
         player.clean_tail()
         mainloop, quit_game = wait_continue(mainloop, quit_game)
-    menu.main(not quit_game)
+    menu.menu(not quit_game)
 
 def wait_continue(mainloop, quit_game):
     ''' Wait for input at the end of the game '''

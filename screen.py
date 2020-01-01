@@ -4,6 +4,7 @@ import numpy as np
 COLORS = {"background": (245, 243, 220),
         "wall": (40, 40, 40),        
         "player": (166, 255, 175),
+        "playercol": (255, 141, 103),
         "player2": (143, 204, 254),
         "player2col": (255, 141, 103),
         "winnerplayer1": (95, 244, 112),
@@ -12,24 +13,8 @@ COLORS = {"background": (245, 243, 220),
         "food": (255, 141, 103)}
 
 class Screen:
-    ''' Handles creation of map grid and drawing of objects
-
-    Args:
-        WIDTH (int): map width
-        HEIGHT (int): map height
-        PX_SIZE (int): size of individual pixel
-        MAP (str): relative location to numpy array saved in CSV file. Can be empty
-        GRAPHICS (bool): represents if graphics should be active or not
-
-    Attributes:
-        width (int): contains the value of WIDTH
-        height (int): contains the value of HEIGHT
-        real_width (int): contains value of WIDTH in pixels
-        real_height (int): contains value of HEIGHT in pixels
-        grid (np.array): array that represents the map
-        screen (pygame.Surface): window where the game is played
-        map_surface (pygame.Surface): surface with all map elements
-    '''
+    ''' Handles creation of map grid and drawing of objects '''
+    
     def __init__(self, WIDTH, HEIGHT, PX_SIZE, MAP, GRAPHICS=True):           
         self.width, self.height = WIDTH, HEIGHT
         self.px_size = PX_SIZE
@@ -37,7 +22,7 @@ class Screen:
         self.grid = self.load_map(MAP)
         if GRAPHICS:    
             pygame.init()
-            # OpenSansCondensed-Light
+            pygame.display.set_caption("QSnake")
             self.font = pygame.font.Font("./assets/OpenSansCondensed-Light.ttf", 32)
             self.screen = pygame.display.set_mode((self.real_width, self.real_height))
             self.map_surface = self.draw_map(self.grid)
@@ -71,7 +56,7 @@ class Screen:
                     pygame.draw.rect(surface, COLORS["wall"], pygame.Rect(y*self.px_size, x*self.px_size, self.px_size, self.px_size))
         return surface
 
-    def blit(self, player, food, player2=None, winner=None, collision="", name1="Player", name2="Computer"):
+    def blit(self, player, food, player2=None, winner=None, collision="", collision2="", name1="Player", name2="Computer"):
         ''' Draw all objects and update the screen '''
         player_pos, tail, player_score = player.pos, player.tail, player.score
         food_pos = food.pos
@@ -81,7 +66,7 @@ class Screen:
 
         # Draw player
         tmp_rect = pygame.Rect(player_pos[0] * self.px_size, player_pos[1] * self.px_size, self.px_size, self.px_size)
-        pygame.draw.rect(surface, COLORS["player"], tmp_rect) 
+        pygame.draw.rect(surface, COLORS["player" + collision2], tmp_rect) 
         pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
 
         # Draw food
