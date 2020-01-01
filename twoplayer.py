@@ -73,7 +73,7 @@ def main():
         continue_game = False
         mainloop, quit_game = wait_continue(mainloop, quit_game)
         
-    menu.menu(not quit_game)
+    menu.menu(not quit_game, mode=2)
 
 
 def wait_start(mainloop):

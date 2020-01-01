@@ -76,7 +76,7 @@ def main():
         player.clean_tail()
         player_ai.clean_tail()
         mainloop, quit_game = wait_continue(mainloop, quit_game)        
-    menu.menu(not quit_game)
+    menu.menu(not quit_game, mode=3)
 
 def wait_start(mainloop, quit_game):
     ''' Wait for input at the start of the game '''

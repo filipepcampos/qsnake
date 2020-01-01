@@ -13,14 +13,14 @@ modes = ["singleplayer", "ai", "twoplayer", "playerai"]
 def main():
     menu()
        
-def menu(mainloop=True):    
+def menu(mainloop=True, mode=0):    
     pygame.init()    
     pygame.display.set_caption("QSnake")    
     if mainloop:
         screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        screen.blit(images[0], (0, 0))
+        screen.blit(images[mode%4], (0, 0))
         pygame.display.flip()
-        last_mode, mode = 0, 0
+        last_mode = mode
         clock = pygame.time.Clock()
         wait_time, time = 250, 250
         while mainloop:

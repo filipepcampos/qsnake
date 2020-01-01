@@ -10,8 +10,8 @@ from keypress import register_quit
 WIDTH = 30
 HEIGHT = 30
 PX_SIZE = 20
-DATA = "./data/data15/"
-#DATA = "./data/data6/"
+#DATA = "./data/data15/"
+DATA = "./data/data6/"
 GRAPHICS = True
 TRAINING = False
 
@@ -85,7 +85,7 @@ def main():
         scores.append(player.score)
         player.clean_tail()
         if go_to_menu:
-            menu.menu()
+            menu.menu(mode=1)
             break
         if not mainloop:
             pygame.quit()
