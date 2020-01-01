@@ -16,7 +16,7 @@ Este jogo poderá ser jogado por um humano ou por um agente de A.I baseado em Q-
 
 #### UI
 
-![UI](/assets/ui.png)
+![UI](/assets/ui.gif)
 
 ### Pacotes
 
