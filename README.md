@@ -1,35 +1,54 @@
-# Projeto QSnake
-### FPRO/MIEIC, 2019/20
-### Filipe Pinto Campos up201905609@fe.up.pt
-### 1MIEIC07 
+<h1 align="center">&#128013 QSnake</h1>
 
-#### Objetivo
+-------
+**FPRO/MIEIC, 2019/20**
+**Filipe Pinto Campos up201905609@fe.up.pt**
+**1MIEIC07**
+
+---------
+
+## :triangular_flag_on_post: Objetivo
+
 
 1. Criar um clone do clássico Snake em Pygame
 2. Implementar Q-Learning
 
-#### Descrição
+## :page_facing_up: Descrição
 
 Réplica do clássico jogo Snake.
 O objetivo do jogo é obter a maior quantidade possível de comida possível sem colidir contra uma parede ou contra a cauda do jogador.
 Este jogo poderá ser jogado por um humano ou por um agente de A.I baseado em Q-Learning
 
-#### UI
+## :game_die: UI
 
 <img src="/assets/ui.gif" width="300" height="300">
 
-### Controlos
+## :video_game: Controlos
 **Movimento** - Setas direcionais e WASD
 **Reiniciar Jogo** - Enter e Space
 **Alterar velocidade de jogo em modo A.I** - Teclas 1, 2, 3 e 4
 
 
-### Pacotes
+## :package: Pacotes
 
 - Pygame
 - Numpy
 
-### Tarefas
+## :clipboard: Uso
+Iniciar menu principal:
+``` sh
+python3 menu.py
+```
+
+Iniciar diretamente modo específico:
+``` sh
+python3 singleplayer.py
+python3 ai.py
+python3 twoplayer.py
+python3 playerai.py
+```
+
+## :heavy_check_mark: Tarefas
 
 1. ~~**MATRIZ NxN**~~
    1. ~~Desenhar~~
@@ -70,16 +89,22 @@ Cada estado é inicialmente obtido como um número binário de 10 bits, e poster
 Os grupos de bits correspondem respetivamente ao Perigo, Comida e Direção
 
 **Perigo**
-
+<table><tr><td>
 Corresponde a 4 valores booleanos associados ao perigo nas posições adjacentes ao jogador (cima, baixo, esquerda, direita)
+</td></tr></table>
 
 **Comida**
-
+<table><tr><td>
 Corresponde à posição relativa da comida em relação ao jogador. (a cima, a baixo, à esquerda, à direita). A informação parece redundante pois a comida não poderá se encontrar simultâneamente a cima e a baixo do jogador mas, no entanto, permite centrar o jogador em relação à comida, se não estiver a cima nem a baixo, o jogador está centrado
+</td></tr></table>
+
 
 **Direção**
+<table><tr><td>
+Número de 2 bits correspondente à direção do movimento do jogador. <code>00: cima</code>, <code>01: baixo</code>, <code>10: esquerda</code>, <code>11: direita</code>
+</td></tr></table>
 
-Número de 2 bits correspondente à direção do movimento do jogador. 00: cima, 01: baixo, 10: esquerda, 11: direita
+
 
 
 ### Funcionalidade:
