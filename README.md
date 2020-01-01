@@ -76,7 +76,7 @@ Corresponde à posição relativa da comida em relação ao jogador. (a cima, a 
 Número de 2 bits correspondente à direção do movimento do jogador. 00: cima, 01: baixo, 10: esquerda, 11: direita
 
 
-#### Funcionalidade:
+### Funcionalidade:
 1. No início de cada iteração é associado associado um estado à situação atual do jogo. 
 2. Em seguida é escolhida uma ação. Esta ação poderá ser uma ação aleatória se (um número aleatório entre 0 e 1 < epsilon) ou a melhor ação associada ao estado atual
 3. O jogador movimenta-se e dependendo de o que acontecer será associado uma recompensa
