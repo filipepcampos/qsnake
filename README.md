@@ -18,6 +18,12 @@ Este jogo poderá ser jogado por um humano ou por um agente de A.I baseado em Q-
 
 <img src="/assets/ui.gif" width="300" height="300">
 
+### Controlos
+**Movimento** - Setas direcionais e WASD
+**Reiniciar Jogo** - Enter e Space
+**Alterar velocidade de jogo em modo A.I** - Teclas 1, 2, 3 e 4
+
+
 ### Pacotes
 
 - Pygame
