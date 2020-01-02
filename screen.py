@@ -12,6 +12,7 @@ COLORS = {"background": (245, 243, 220),
         "winnerplayer": (95, 244, 112),
         "winnerplayerai": (12, 167, 244),
         "winnertie": (50, 50, 50),
+        "winnergameover": (50, 50, 50),
         "border": (30, 30, 30),
         "food": (255, 141, 103)}
 
@@ -108,7 +109,8 @@ class Screen:
                 "player2": "Player 2 wins",
                 "player": "Player wins",
                 "playerai": "A.I wins",
-                "tie": "Tie"}
+                "tie": "Tie",
+                "gameover": "Game over"}
             tmp = pygame.Surface((560, 560))
             tmp.set_alpha(75)
             tmp.fill(COLORS["winner" + winner])

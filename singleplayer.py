@@ -37,6 +37,7 @@ def main():
                 mainloop = False
         
         player.clean_tail()
+        screen.draw_winner(winner="gameover")
         mainloop, quit_game = wait_continue(mainloop, quit_game)
     menu.menu(not quit_game)
 
