@@ -56,22 +56,21 @@ python3 playerai.py
 ```
 
 ## :heavy_check_mark: Tarefas
-
-1. ~~**MATRIZ NxN**~~
-   1. ~~Desenhar~~
-   1. ~~Teclas jogador~~
-   1. ~~Desenhar comida / colisão~~
-   1. ~~Criar "cauda" do jogador (lista)~~
-1. ~~**OPÇÃO JOGADOR CONTROLADO POR AI (Q-Learning)**~~
-   1. ~~Traduzir jogo em estados básicos~~
-      *  ~~Criar uma matriz estados -> acções~~
-   1. ~~Atualizar essa matriz com a *reward* que o jogador recebeu~~
-      * ~~Para já, a snake continua a ser controlada pelo ser humano~~
-      * ~~Não aconteceu nada -> soma 0~~
-      * ~~Apanhou comida -> soma 1~~
-      * ~~Morreu -> soma -10~~
-   1. ~~Agir, para cada estado, com a ação com maior *reward*~~
-1. ~~**MODO JOGADOR-AI AO MESMO TEMPO**~~
+1. [x] **MATRIZ NxN**
+   1. Desenhar
+   1. Teclas jogador~~
+   1. Desenhar comida / colisão
+   1. Criar "cauda" do jogador (lista)
+1. [x] **OPÇÃO JOGADOR CONTROLADO POR AI (Q-Learning)**
+   1. Traduzir jogo em estados básicos
+      *  Criar uma matriz estados -> acções
+   1. Atualizar essa matriz com a *reward* que o jogador recebeu
+      * Para já, a snake continua a ser controlada pelo ser humano
+      * Não aconteceu nada -> soma -0.01
+      * Apanhou comida -> soma 10
+      * Morreu -> soma -100
+   1. Agir, para cada estado, com a ação com maior *reward*
+1. [x] **MODO JOGADOR-AI AO MESMO TEMPO**
 
 ------
 ## :books: Método Q-Learning:
@@ -79,8 +78,8 @@ Em cada estado do jogo é mapeado um Q-value para cada ação (Up, Down, Left, R
 
 ### :watermelon: Recompensas:
 * Movimento: -0.01
-* Comida: 20
-* Morte: -10
+* Comida: 10
+* Morte: -100
 
 A cada movimento que o jogador realiza está associado uma recompensa negativa de modo a minimizar o número de movimentos até à comida.
 
