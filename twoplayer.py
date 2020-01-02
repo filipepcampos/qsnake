@@ -62,7 +62,6 @@ def main():
             
             if not loop:
                 winner = get_winner(player, player2, player_death, player2_death)
-                print(winner)
                 screen.draw_winner(winner=winner)
             
             mainloop = not register_esc()
