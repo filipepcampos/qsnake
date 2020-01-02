@@ -74,23 +74,23 @@ python3 playerai.py
 1. ~~**MODO JOGADOR-AI AO MESMO TEMPO**~~
 
 ------
-## Método Q-Learning:
+## :books: Método Q-Learning:
 Em cada estado do jogo é mapeado um Q-value para cada ação (Up, Down, Left, Right), quanto maior este valor for melhor a ação é. Estes valores são obtivos através de tentativa e erro de diversas ações sendo a cada uma associada uma recompensa que irá influenciar o Q-value
 
-### Recompensas:
-* Movimento: -0.1
-* Comida: 200
-* Morte: -100
+### :watermelon: Recompensas:
+* Movimento: -0.01
+* Comida: 20
+* Morte: -10
 
 A cada movimento que o jogador realiza está associado uma recompensa negativa de modo a minimizar o número de movimentos até à comida.
 
-### Parâmetros:
+### :floppy_disk: Parâmetros:
 1. **Total**: Número total de jogos a ser executados
-1. **Epsilon**: Fator decisor entre realizar uma ação aleatória (para explorar diferentes estados) e realizar a melhor ação conhecida
-1. **Alpha**: Taxa de aprendizagem, define o impacto de cada iteração sobre os Q-values
-1. **Gamma**: Importância de recompensa a longo prazo
+1. **Epsilon** $\epsilon$ : Fator decisor entre realizar uma ação aleatória (para explorar diferentes estados) e realizar a melhor ação conhecida
+1. **Alpha** $\alpha$ : Taxa de aprendizagem, define o impacto de cada iteração sobre os Q-values
+1. **Gamma** $\gamma$ : Importância de recompensa a longo prazo
 
-### Estado:
+### :camera: Estado:
 Cada estado é inicialmente obtido como um número binário de 10 bits, e posteriormente convertido num número decimal
 **0000_0000_00** a **1111_1111_11** (0 a 1023 decimal)
 Os grupos de bits correspondem respetivamente ao Perigo, Comida e Direção
@@ -114,12 +114,22 @@ Número de 2 bits correspondente à direção do movimento do jogador. <code>00:
 
 
 
-### Funcionalidade:
+### :computer: Funcionalidade:
 1. No início de cada iteração é associado associado um estado à situação atual do jogo. 
 2. Em seguida é escolhida uma ação. Esta ação poderá ser uma ação aleatória se (um número aleatório entre 0 e 1 < epsilon) ou a melhor ação associada ao estado atual
 3. O jogador movimenta-se e dependendo de o que acontecer será associado uma recompensa
-4. É calculado o novo Q-Value para o estado atual, para a ação tomada através da seguinte fórmula:
-![Q-Learning formula](/assets/formula.png)
+4. É calculado o novo Q-Value para o estado anterior ao movimento, para a ação tomada através da seguinte fórmula:
+
+$$
+NewQ(s, a) = Q(s, a) + \alpha[R(s, a) + \gamma \cdot max\, Q'(s', a') - Q(s, a)]   \\\\
+$$
+
+$$
+NewQ(s, a)\text{ - Novo Q-Value}  \\
+Q(s, a)\text{ - Q-Value anterior}\\
+R(s, a)\text{ - Recompensa associada à ação tomada}\\
+max\, Q'(s', a')\text{ - Q-value máximo esperado considerando o estado atual e todas as ações possíveis}\\
+$$
 5. Repetir até terminar o número total de jogos
 
 ------
