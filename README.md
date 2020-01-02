@@ -58,7 +58,7 @@ python3 playerai.py
 ## :heavy_check_mark: Tarefas
 1. [x] **MATRIZ NxN**
    1. Desenhar
-   1. Teclas jogador~~
+   1. Teclas jogador
    1. Desenhar comida / colisão
    1. Criar "cauda" do jogador (lista)
 1. [x] **OPÇÃO JOGADOR CONTROLADO POR AI (Q-Learning)**
