@@ -121,6 +121,8 @@ Número de 2 bits correspondente à direção do movimento do jogador. <code>00:
 4. É calculado o novo Q-Value para o estado anterior ao movimento, para a ação tomada através da seguinte fórmula:
 
 ![formula](./assets/formula.png)
+
+
 5. Repetir até terminar o número total de jogos
 
 ------
