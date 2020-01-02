@@ -26,7 +26,7 @@ class Screen:
         if GRAPHICS:    
             pygame.init()
             pygame.display.set_caption("QSnake")
-            self.font = pygame.font.Font("./assets/AmaticSC-Bold.ttf", 32)
+            self.font = pygame.font.Font("./assets/AmaticSC-Bold.ttf", 42)
             self.font2 = pygame.font.Font("./assets/AmaticSC-Bold.ttf", 62)
             self.screen = pygame.display.set_mode((self.real_width, self.real_height))
             self.map_surface = self.draw_map(self.grid)
@@ -103,9 +103,7 @@ class Screen:
         pygame.display.flip()
     
     def draw_winner(self, winner=None):
-        print(winner)
         if winner:
-            print("passed")
             d = {"player1": "Player 1 wins",
                 "player2": "Player 2 wins",
                 "player": "Player wins",

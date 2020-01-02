@@ -10,7 +10,7 @@ from keypress import *
 WIDTH = 30
 HEIGHT = 30
 PX_SIZE = 20
-DATA = "./data/data2/"
+DATA = "./data/2/"
 
 fps = 20
 
