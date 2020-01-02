@@ -1,8 +1,17 @@
+<<<<<<< HEAD
 <h1 align="center" style="font-size:60px;">&#128013 QSnake</h1>
+=======
+<h1 align="center" style="font-size=60px;">
+   &#128013 QSnake
+   <br>
+   <br>
+</h1>
+>>>>>>> 6bb220d4c1abd424baa099f85c7bc8bd2237f38c
 
--------
 **FPRO/MIEIC, 2019/20**
+
 **Filipe Pinto Campos up201905609@fe.up.pt**
+
 **1MIEIC07**
 
 ---------
@@ -24,10 +33,10 @@ Este jogo poderá ser jogado por um humano ou por um agente de A.I baseado em Q-
 <img src="/assets/ui.gif" width="300" height="300">
 
 ## :video_game: Controlos
-**Movimento** - Setas direcionais e WASD
-**Reiniciar Jogo** - Enter e Space
-**Alterar velocidade de jogo em modo A.I** - Teclas 1, 2, 3 e 4
-**Regressar ao menu** - Esc
+* **Movimento** - Setas direcionais e WASD
+* **Reiniciar Jogo** - Enter e Space
+* **Alterar velocidade de jogo em modo A.I** - Teclas 1, 2, 3 e 4
+* **Regressar ao menu** - Esc
 
 
 ## :package: Pacotes
@@ -96,7 +105,7 @@ Corresponde a 4 valores booleanos associados ao perigo nas posições adjacentes
 
 **Comida**
 <table><tr><td>
-Corresponde à posição relativa da comida em relação ao jogador. (a cima, a baixo, à esquerda, à direita). A informação parece redundante pois a comida não poderá se encontrar simultâneamente a cima e a baixo do jogador mas, no entanto, permite centrar o jogador em relação à comida, se não estiver a cima nem a baixo, o jogador está centrado
+Corresponde à posição relativa da comida em relação ao jogador. (a cima, a baixo, à esquerda, à direita).
 </td></tr></table>
 
 
