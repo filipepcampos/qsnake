@@ -10,7 +10,7 @@ from keypress import *
 WIDTH = 30
 HEIGHT = 30
 PX_SIZE = 20
-DATA = "./data/data13/"
+DATA = "./data/data2/"
 
 fps = 20
 
@@ -58,7 +58,7 @@ def main():
             loop = player_ai_death and player_death
             if not loop:
                 winner = get_winner(player, player_ai, player_death, player_ai_death)
-                screen.draw_alpha(winner=winner)
+                screen.draw_winner(winner=winner)
             
             # Update the screen
             if loop: 
@@ -109,7 +109,7 @@ def get_winner(player, player_ai, player_death, player_ai_death):
         p2 += 5
     elif not player_ai_death:
         p1 += 5
-    return "player1" if p1 > p2 else "player2" if p2 > p1 else None
+    return "player1" if p1 > p2 else "player2" if p2 > p1 else "tie"
 
 if __name__ == "__main__":
     main() 

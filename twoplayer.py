@@ -51,10 +51,7 @@ def main():
             if swap:
                 player_death, player2_death = False, False
             loop = player2_death and player_death
-            if not loop:
-                winner = get_winner(player, player2, player_death, player2_death)
-                screen.draw_alpha(winner=winner)
-                   
+                               
             # Update the screen
             if loop:
                 screen.blit(player, food, player2, name1="Player1", name2="Player2")
@@ -62,6 +59,11 @@ def main():
                 screen.blit(player, food, player2, name1="Player1", name2="Player2", collision="col")
             elif swap:
                 screen.blit(player, food, player2, name1="Player1", name2="Player2", collision="col", collision2="col")
+            
+            if not loop:
+                winner = get_winner(player, player2, player_death, player2_death)
+                print(winner)
+                screen.draw_winner(winner=winner)
             
             mainloop = not register_esc()
             quit_game = register_quit()
@@ -105,7 +107,7 @@ def get_winner(player, player2, player_death, player2_death):
         p2 += 5
     elif not player2_death:
         p1 += 5
-    return "player1" if p1 > p2 else "player2" if p2 > p1 else None
+    return "player1" if p1 > p2 else "player2" if p2 > p1 else "tie"
 
 
 if __name__ == "__main__":

@@ -9,6 +9,9 @@ COLORS = {"background": (245, 243, 220),
         "player2col": (150, 150, 150),
         "winnerplayer1": (95, 244, 112),
         "winnerplayer2": (12, 167, 244),
+        "winnerplayer": (95, 244, 112),
+        "winnerplayerai": (12, 167, 244),
+        "winnertie": (50, 50, 50),
         "border": (30, 30, 30),
         "food": (255, 141, 103)}
 
@@ -23,7 +26,8 @@ class Screen:
         if GRAPHICS:    
             pygame.init()
             pygame.display.set_caption("QSnake")
-            self.font = pygame.font.Font("./assets/OpenSansCondensed-Light.ttf", 32)
+            self.font = pygame.font.Font("./assets/AmaticSC-Bold.ttf", 32)
+            self.font2 = pygame.font.Font("./assets/AmaticSC-Bold.ttf", 62)
             self.screen = pygame.display.set_mode((self.real_width, self.real_height))
             self.map_surface = self.draw_map(self.grid)
         
@@ -98,10 +102,23 @@ class Screen:
         self.screen.blit(text, text_rect)
         pygame.display.flip()
     
-    def draw_alpha(self, winner=None):
+    def draw_winner(self, winner=None):
+        print(winner)
         if winner:
+            print("passed")
+            d = {"player1": "Player 1 wins",
+                "player2": "Player 2 wins",
+                "player": "Player wins",
+                "playerai": "A.I wins",
+                "tie": "Tie"}
             tmp = pygame.Surface((560, 560))
             tmp.set_alpha(75)
             tmp.fill(COLORS["winner" + winner])
             self.screen.blit(tmp, (20, 20))
+
+            text = self.font2.render(f"{d[winner]}", True, COLORS["wall"])
+            text_rect = text.get_rect()
+            text_rect.center = (self.real_width // 2, self.real_height // 2)
+            
+            self.screen.blit(text, text_rect)
             pygame.display.flip()
