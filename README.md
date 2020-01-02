@@ -1,6 +1,9 @@
-<h1 align="center" style="font-size=60px;">&#128013 QSnake</h1>
+<h1 align="center" style="font-size=60px;">
+   &#128013 QSnake
+   <br>
+   <br>
+</h1>
 
--------
 **FPRO/MIEIC, 2019/20**
 
 **Filipe Pinto Campos up201905609@fe.up.pt**
@@ -97,7 +100,7 @@ Corresponde a 4 valores booleanos associados ao perigo nas posições adjacentes
 
 **Comida**
 <table><tr><td>
-Corresponde à posição relativa da comida em relação ao jogador. (a cima, a baixo, à esquerda, à direita). A informação parece redundante pois a comida não poderá se encontrar simultâneamente a cima e a baixo do jogador mas, no entanto, permite centrar o jogador em relação à comida, se não estiver a cima nem a baixo, o jogador está centrado
+Corresponde à posição relativa da comida em relação ao jogador. (a cima, a baixo, à esquerda, à direita).
 </td></tr></table>
 
 
