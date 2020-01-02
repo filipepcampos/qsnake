@@ -120,16 +120,7 @@ Número de 2 bits correspondente à direção do movimento do jogador. <code>00:
 3. O jogador movimenta-se e dependendo de o que acontecer será associado uma recompensa
 4. É calculado o novo Q-Value para o estado anterior ao movimento, para a ação tomada através da seguinte fórmula:
 
-$$
-NewQ(s, a) = Q(s, a) + \alpha[R(s, a) + \gamma \cdot max\, Q'(s', a') - Q(s, a)]   \\\\
-$$
-
-$$
-NewQ(s, a)\text{ - Novo Q-Value}  \\
-Q(s, a)\text{ - Q-Value anterior}\\
-R(s, a)\text{ - Recompensa associada à ação tomada}\\
-max\, Q'(s', a')\text{ - Q-value máximo esperado considerando o estado atual e todas as ações possíveis}\\
-$$
+![formula](./assets/formula.png)
 5. Repetir até terminar o número total de jogos
 
 ------
