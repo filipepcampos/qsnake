@@ -86,9 +86,9 @@ A cada movimento que o jogador realiza está associado uma recompensa negativa d
 
 ### :floppy_disk: Parâmetros:
 1. **Total**: Número total de jogos a ser executados
-1. **Epsilon** $\epsilon$ : Fator decisor entre realizar uma ação aleatória (para explorar diferentes estados) e realizar a melhor ação conhecida
-1. **Alpha** $\alpha$ : Taxa de aprendizagem, define o impacto de cada iteração sobre os Q-values
-1. **Gamma** $\gamma$ : Importância de recompensa a longo prazo
+1. **Epsilon** : Fator decisor entre realizar uma ação aleatória (para explorar diferentes estados) e realizar a melhor ação conhecida
+1. **Alpha** : Taxa de aprendizagem, define o impacto de cada iteração sobre os Q-values
+1. **Gamma** : Importância de recompensa a longo prazo
 
 ### :camera: Estado:
 Cada estado é inicialmente obtido como um número binário de 10 bits, e posteriormente convertido num número decimal
