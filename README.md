@@ -1,12 +1,9 @@
-<<<<<<< HEAD
-<h1 align="center" style="font-size:60px;">&#128013 QSnake</h1>
-=======
 <h1 align="center" style="font-size=60px;">
    &#128013 QSnake
    <br>
    <br>
 </h1>
->>>>>>> 6bb220d4c1abd424baa099f85c7bc8bd2237f38c
+
 
 **FPRO/MIEIC, 2019/20**
 
