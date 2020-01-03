@@ -76,6 +76,18 @@ $ python3 playerai.py
 ## :books: Método Q-Learning:
 Em cada estado do jogo é mapeado um Q-value para cada ação (Up, Down, Left, Right), quanto maior este valor for melhor a ação é. Estes valores são obtivos através de tentativa e erro de diversas ações sendo a cada uma associada uma recompensa que irá influenciar o Q-value
 
+**Q-Table**
+|Estado | :arrow_up: | :arrow_down: | :arrow_left: | :arrow_right: |
+|--- | -----------| ------------ | ------------ | ------------- |
+| 0 | 0.322117 | 0.100763 | 0.040893 | 0.100597 |
+| 1 |0.036582 |	0.000000 |	0.000000 |	0.136924|
+| 2 | 0.121900 | 0.000000 | 0.000000 | 0.000000 | 
+| 3 | 0.000000 | 0.000000 | 0.000000 | 0.179133 |
+| 4 | 0.363259 | 0.369609 | 0.414382 | 0.773585 |
+| ...| ... | ... | ... | ...
+| 1022 | 0.000000 | 0.000000 | 0.000000 | 0.000000
+------------------
+
 ### :watermelon: Recompensas:
 * Movimento: -0.01
 * Comida: 10
