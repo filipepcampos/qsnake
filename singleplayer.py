@@ -30,10 +30,11 @@ def main():
             player.check_food(food)
             loop = player.check_death()
 
-            quit_game = register_quit()
-            mainloop = not register_esc()
-            if quit_game: 
+            if register_quit(): 
                 return False
+            if register_esc():
+                return True
+            
         
         player.clean_tail()
         screen.draw_winner(winner="gameover")
