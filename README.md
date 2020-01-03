@@ -44,15 +44,15 @@ Este jogo poderá ser jogado por um humano ou por um agente de A.I baseado em Q-
 ## :clipboard: Uso
 Iniciar menu principal:
 ``` sh
-python3 menu.py
+$ python3 qsnake.py
 ```
 
 Iniciar diretamente modo específico:
 ``` sh
-python3 singleplayer.py
-python3 ai.py
-python3 twoplayer.py
-python3 playerai.py
+$ python3 singleplayer.py
+$ python3 ai.py
+$ python3 twoplayer.py
+$ python3 playerai.py
 ```
 
 ## :heavy_check_mark: Tarefas

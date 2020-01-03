@@ -3,7 +3,6 @@ import numpy as np
 from player import Player
 from screen import Screen
 from food import Food
-import menu
 from keypress import *
 
 WIDTH = 30
@@ -34,12 +33,14 @@ def main():
             quit_game = register_quit()
             mainloop = not register_esc()
             if quit_game: 
-                mainloop = False
+                return False
         
         player.clean_tail()
         screen.draw_winner(winner="gameover")
         mainloop, quit_game = wait_continue(mainloop, quit_game)
-    menu.menu(not quit_game)
+        if quit_game:
+            return False
+    return True
 
 def wait_continue(mainloop, quit_game):
     ''' Wait for input at the end of the game '''

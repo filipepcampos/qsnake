@@ -4,7 +4,6 @@ from player import Player
 from screen import Screen
 from food import Food
 from get_state import get_state
-import menu
 from keypress import register_enter, register_quit, register_esc
 from keypress import register_keypress2 as register_keypress
 
@@ -26,6 +25,8 @@ def main():
 
         screen.blit(player, food, player2, name1="Player1", name2="Player2") 
         action, action2, quit_game, mainloop = wait_start(mainloop)
+        if quit_game:
+            return False
 
         player.change_action(action)
         player2.change_action(action2)
@@ -67,14 +68,14 @@ def main():
             mainloop = not register_esc()
             quit_game = register_quit()
             if quit_game:
-                mainloop = False
+                return False
         
         player.clean_tail()
         player2.clean_tail()
-        continue_game = False
         mainloop, quit_game = wait_continue(mainloop, quit_game)
-        
-    menu.menu(not quit_game, mode=2)
+        if quit_game:
+            return False        
+    return True
 
 
 def wait_start(mainloop):

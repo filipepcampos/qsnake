@@ -15,43 +15,40 @@ moves = [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0
 COLORS = {"player": (166, 255, 175),
         "border": (30, 30, 30)}
 
-def main():
-    menu()
-       
-def menu(mainloop=True, mode=0):        
-    if mainloop:        
-        pygame.init()    
-        pygame.display.set_caption("QSnake")
+def main():            
+    pygame.init()    
+    pygame.display.set_caption("QSnake")
 
-        screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        screen.blit(images[mode%4], (0, 0))
+    mainloop, mode = True, 0
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    screen.blit(images[mode%4], (0, 0))
 
-        pygame.display.flip()
-        last_mode = mode
-        clock = pygame.time.Clock()
-        pos, tail = (3, 27), collections.deque([(3, 23), (3, 24), (3, 25), (3, 26),])
-        i = 0
-        wait_time, time = 250, 250
-        while mainloop:
-            time += clock.tick(20)
-            mainloop = not register_quit()
-            keys = pygame.key.get_pressed()
-            if time > wait_time:
-                if keys[pygame.K_w] or keys[pygame.K_UP]:
-                    mode -= 1
-                    time = 0
-                elif keys[pygame.K_s] or keys[pygame.K_DOWN]:
-                    mode += 1
-                    time = 0
-            if keys[pygame.K_RETURN] or keys[pygame.K_SPACE]:
-                mainloop = False
-                eval(modes[mode % 4] + ".main()")
-            
+    pygame.display.flip()
+    last_mode = mode
+    clock = pygame.time.Clock()
+    pos, tail = (3, 27), collections.deque([(3, 23), (3, 24), (3, 25), (3, 26),])
+    i = 0
+    wait_time, time = 250, 250
+    while mainloop:
+        time += clock.tick(20)
+        mainloop = not register_quit()
+        keys = pygame.key.get_pressed()
+        if time > wait_time:
+            if keys[pygame.K_w] or keys[pygame.K_UP]:
+                mode -= 1
+                time = 0
+            elif keys[pygame.K_s] or keys[pygame.K_DOWN]:
+                mode += 1
+                time = 0
+        if keys[pygame.K_RETURN] or keys[pygame.K_SPACE]:
+            #mainloop = False
+            mainloop = eval(modes[mode % 4] + ".main()")
         
-            if mainloop:
-                i += 1
-                pos, tail = update_snake(pos, tail, moves[i%226])
-                draw(screen, images[mode%4], pos, tail)
+    
+        if mainloop:
+            i += 1
+            pos, tail = update_snake(pos, tail, moves[i%226])
+            draw(screen, images[mode%4], pos, tail)
         
     pygame.quit()
         

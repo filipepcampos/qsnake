@@ -4,7 +4,6 @@ from player import Player
 from screen import Screen
 from food import Food
 from get_state import get_state
-import menu
 from keypress import *
 
 WIDTH = 30
@@ -28,6 +27,8 @@ def main():
         screen.blit(player, food, player_ai) 
         
         action, quit_game, mainloop = wait_start(mainloop, quit_game)
+        if quit_game:
+            return False
 
         player.change_action(action)
         player_ai.change_action(0)
@@ -73,12 +74,14 @@ def main():
             mainloop = not register_esc()
             quit_game = register_quit()
             if quit_game:
-                mainloop = False
+                return False
         
         player.clean_tail()
         player_ai.clean_tail()
         mainloop, quit_game = wait_continue(mainloop, quit_game)        
-    menu.menu(not quit_game, mode=3)
+        if quit_game:
+            return False
+    return True
 
 def wait_start(mainloop, quit_game):
     ''' Wait for input at the start of the game '''
