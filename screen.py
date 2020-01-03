@@ -27,7 +27,7 @@ class Screen:
         if GRAPHICS:    
             pygame.init()
             pygame.display.set_caption("QSnake")
-            self.font = pygame.font.Font("./assets/Simplifica.ttf", 32)
+            self.font = pygame.font.Font("./assets/SIMPLIFICA.ttf", 32)
             self.font2 = pygame.font.Font("./assets/AmaticSC-Bold.ttf", 62)
             self.screen = pygame.display.set_mode((self.real_width, self.real_height))
             self.map_surface = self.draw_map(self.grid)
