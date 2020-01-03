@@ -77,6 +77,7 @@ $ python3 playerai.py
 Em cada estado do jogo é mapeado um Q-value para cada ação (Up, Down, Left, Right), quanto maior este valor for melhor a ação é. Estes valores são obtivos através de tentativa e erro de diversas ações sendo a cada uma associada uma recompensa que irá influenciar o Q-value
 
 **Q-Table**
+
 |Estado | :arrow_up: | :arrow_down: | :arrow_left: | :arrow_right: |
 |--- | -----------| ------------ | ------------ | ------------- |
 | 0 | 0.322117 | 0.100763 | 0.040893 | 0.100597 |
