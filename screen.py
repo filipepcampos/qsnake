@@ -104,6 +104,8 @@ class Screen:
         pygame.display.flip()
     
     def draw_winner(self, winner=None):
+        ''' Draw gameover overlay '''
+        
         if winner:
             d = {"player1": "Player 1 wins",
                 "player2": "Player 2 wins",

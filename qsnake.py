@@ -53,6 +53,8 @@ def main():
     pygame.quit()
         
 def draw(screen, img, player_pos,tail):
+    ''' Draw snake animation '''
+
     surface = pygame.Surface((600, 600))
     
     surface.blit(img, (0, 0))
@@ -67,6 +69,8 @@ def draw(screen, img, player_pos,tail):
     pygame.display.flip()
 
 def update_snake(pos, tail, direction):
+    ''' Update snake position ''' 
+    
     tail.append(pos)
     x, y = pos
     if direction == 0:

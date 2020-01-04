@@ -84,6 +84,7 @@ def game():
 
 
 def wait_start(mainloop):
+    ''' Wait for input at the start of the game '''
     action, action2 = None, None
     while (action == None or action2 == None) and mainloop == True:            
         action, action2 = register_keypress(action, action2)
@@ -94,6 +95,7 @@ def wait_start(mainloop):
     return action, action2, quit_game, mainloop
 
 def wait_continue(mainloop, quit_game):
+    ''' Wait for input at the end of the game '''
     continue_game = False
     while not continue_game and mainloop:
         mainloop = not register_esc()
