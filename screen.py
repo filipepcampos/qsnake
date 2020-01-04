@@ -108,7 +108,7 @@ class Screen:
             d = {"player1": "Player 1 wins",
                 "player2": "Player 2 wins",
                 "player": "Player wins",
-                "playerai": "A.I wins",
+                "playerai": "A.I  wins",
                 "tie": "Tie",
                 "gameover": "Game over"}
             tmp = pygame.Surface((560, 560))

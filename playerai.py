@@ -114,7 +114,7 @@ def get_winner(player, player_ai, player_death, player_ai_death):
         p2 += 5
     elif not player_ai_death:
         p1 += 5
-    return "player1" if p1 > p2 else "player2" if p2 > p1 else "tie"
+    return "player" if p1 > p2 else "playerai" if p2 > p1 else "tie"
 
 if __name__ == "__main__":
     main() 
