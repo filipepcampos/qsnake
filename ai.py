@@ -21,7 +21,13 @@ ALPHA = 0.1
 GAMMA = 0.90
 fps = 0
 
+
 def main():
+    game()
+    if GRAPHICS:
+        pygame.quit()
+
+def game():
     fps, mainloop = 60, True
     go_to_menu = False
     scores = []

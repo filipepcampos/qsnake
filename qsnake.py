@@ -42,7 +42,7 @@ def main():
                 time = 0
         if keys[pygame.K_RETURN] or keys[pygame.K_SPACE]:
             #mainloop = False
-            mainloop = eval(modes[mode % 4] + ".main()")
+            mainloop = eval(modes[mode % 4] + ".game()")
         
     
         if mainloop:

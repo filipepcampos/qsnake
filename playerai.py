@@ -14,6 +14,10 @@ DATA = "./data/2/"
 fps = 20
 
 def main():
+    game()
+    pygame.quit()
+
+def game():
     mainloop, quit_game = True, False
     q_table = np.load(DATA + "data.npy")
     clock = pygame.time.Clock()

@@ -12,7 +12,12 @@ HEIGHT = 30
 PX_SIZE = 20
 fps = 20
 
+
 def main():
+    game()
+    pygame.quit()
+
+def game():
     mainloop, quit_game = True, False
     clock = pygame.time.Clock()
     screen = Screen(WIDTH, HEIGHT, PX_SIZE, None, True)  

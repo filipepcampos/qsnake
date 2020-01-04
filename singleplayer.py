@@ -11,6 +11,10 @@ PX_SIZE = 20
 FPS = 20
 
 def main():
+    game()
+    pygame.quit()
+
+def game():
     screen = Screen(WIDTH, HEIGHT, PX_SIZE, None) 
     mainloop, quit_game = True, False
     clock = pygame.time.Clock()
