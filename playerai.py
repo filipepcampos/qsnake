@@ -114,12 +114,12 @@ def get_winner(player, player_ai, player_death, player_ai_death):
     ''' Return winner of the game '''
     p1, p2 = player.score, player_ai.score
     if not player_ai_death and not player_death:
-        pass
+        res = "tie"
     elif not player_death:
-        p2 += 5
+        res = "playerai" if p1 - p2 <= 10 else "player"
     elif not player_ai_death:
-        p1 += 5
-    return "player" if p1 > p2 else "playerai" if p2 > p1 else "tie"
+        res = "player" if p2 - p1 <= 10 else "playerai"
+    return res
 
 if __name__ == "__main__":
     main() 
