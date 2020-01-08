@@ -61,41 +61,36 @@ class Screen:
                     pygame.draw.rect(surface, COLORS["wall"], pygame.Rect(y*self.px_size, x*self.px_size, self.px_size, self.px_size))
         return surface
 
-    def blit(self, player, food, player2=None, winner=None, collision="", collision2="", name1="Player", name2="Computer"):
+    def blit(self, player, food, player2=None, collision="", collision2="", name1="Player", name2="Computer"):
         ''' Draw all objects and update the screen '''
-        player_pos, tail, player_score = player.pos, player.tail, player.score
         food_pos = food.pos
+
+        info1 = ("player", collision, player.pos, player.tail)
         if player2:
-            player2_pos, tail2, player2_score = player2.pos, player2.tail, player2.score
+            info2 = ("player2", collision2, player2.pos, player2.tail)
+            order = [info2, info1] if collision else [info1, info2]
+        else:
+            order = [info1]
         surface = self.map_surface.copy()
 
-        # Draw player
-        tmp_rect = pygame.Rect(player_pos[0] * self.px_size, player_pos[1] * self.px_size, self.px_size, self.px_size)
-        pygame.draw.rect(surface, COLORS["player" + collision2], tmp_rect) 
-        pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
+        for tag, col, pos, tail in order:
+            # Draw player
+            tmp_rect = pygame.Rect(pos[0] * self.px_size, pos[1] * self.px_size, self.px_size, self.px_size)
+            pygame.draw.rect(surface, COLORS[tag + col], tmp_rect) 
+            pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
+            # Draw player tail
+            for i in tail:
+                tmp_rect.x, tmp_rect.y = i[0] * self.px_size, i[1] * self.px_size
+                pygame.draw.rect(surface, COLORS[tag], tmp_rect)
+                pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
+
 
         # Draw food
         tmp_rect.x, tmp_rect.y = food_pos[0] * self.px_size, food_pos[1] * self.px_size
         pygame.draw.rect(surface, COLORS["food"], tmp_rect) 
         pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
 
-        # Draw player tail
-        for i in tail:
-            tmp_rect.x, tmp_rect.y = i[0] * self.px_size, i[1] * self.px_size
-            pygame.draw.rect(surface, COLORS["player"], tmp_rect)
-            pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
-        
-        # If the game has two players draw the second player
-        if player2:
-            tmp_rect = pygame.Rect(player2_pos[0] * self.px_size, player2_pos[1] * self.px_size, self.px_size, self.px_size)
-            pygame.draw.rect(surface, COLORS["player2" + collision], tmp_rect) 
-            pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
-            for i in tail2:
-                tmp_rect.x, tmp_rect.y = i[0] * self.px_size, i[1] * self.px_size
-                pygame.draw.rect(surface, COLORS["player2"], tmp_rect)
-                pygame.draw.rect(surface, COLORS["border"], tmp_rect, 3)
-
-        text = self.font.render(f"Score: {player_score}", True, COLORS["wall"]) if not player2 else self.font.render(f"{name1}: {player_score}         {name2}: {player2_score}", True, COLORS["wall"])
+        text = self.font.render(f"Score: {player.score}", True, COLORS["wall"]) if not player2 else self.font.render(f"{name1}: {player.score}         {name2}: {player2.score}", True, COLORS["wall"])
         text_rect = text.get_rect()
         text_rect.center = (self.real_width // 2, 50)
 

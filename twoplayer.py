@@ -20,7 +20,8 @@ def main():
 def game():
     mainloop, quit_game = True, False
     clock = pygame.time.Clock()
-    screen = Screen(WIDTH, HEIGHT, PX_SIZE, None, True)  
+    screen = Screen(WIDTH, HEIGHT, PX_SIZE, None, True)
+    game_map = screen.grid.copy()
 
     while mainloop:
         # Restart game for another round
@@ -59,12 +60,13 @@ def game():
             loop = player2_death and player_death
                                
             # Update the screen
-            if loop:
+            if loop: 
                 screen.blit(player, food, player2, name1="Player1", name2="Player2")
-            if player2.pos == player.pos:
-                screen.blit(player, food, player2, name1="Player1", name2="Player2", collision="col")
-            elif swap:
-                screen.blit(player, food, player2, name1="Player1", name2="Player2", collision="col", collision2="col")
+            else:
+                if not game_map[player.pos[::-1]] and not game_map[player2.pos[::-1]]:
+                    col = "" if player_death else "col"
+                    col2 = "" if player2_death else "col"
+                    screen.blit(player, food, player2, name1="Player1", name2="Player2", collision=col, collision2=col2)
             
             if not loop:
                 winner = get_winner(player, player2, player_death, player2_death)
