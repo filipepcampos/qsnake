@@ -18,9 +18,9 @@ class Player:
         self.tail = deque([])
         self.score = 0
 
-    def check_death(self, enemy_pos=None, enemy_old_pos=None):
+    def check_death(self, enemy_pos=None):
         """Check if player position overlaps a wall or tail """
-        if self.grid[self.pos[::-1]] == 1 or enemy_pos == self.pos or enemy_old_pos == self.pos:
+        if self.grid[self.pos[::-1]] == 1 or enemy_pos == self.pos:
             return False
         return True
     

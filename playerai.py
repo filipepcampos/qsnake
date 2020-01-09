@@ -57,7 +57,7 @@ def game():
             # Check conditions            
             player.check_food(food)
             player_ai.check_food(food)
-            player_ai_death, player_death = player_ai.check_death(player.pos, old_player_pos), player.check_death(player_ai.pos, old_player_ai_pos)
+            player_ai_death, player_death = player_ai.check_death(player.pos), player.check_death(player_ai.pos)
             swap = (player.pos == old_player_ai_pos and player_ai.pos == old_player_pos)
             if swap:
                 player_death, player_ai_death = False, False
