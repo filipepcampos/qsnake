@@ -17,7 +17,9 @@ COLORS = {"player": (166, 255, 175),
 
 def main():            
     pygame.init()    
-    pygame.display.set_caption("QSnake")
+    pygame.display.set_caption("QSnake")    
+    icon = pygame.image.load("./assets/icon.png")
+    pygame.display.set_icon(icon)
 
     mainloop, mode = True, 0
     screen = pygame.display.set_mode((WIDTH, HEIGHT))

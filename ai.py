@@ -22,7 +22,10 @@ GAMMA = 0.90
 fps = 0
 
 
-def main():
+def main():        
+    pygame.display.set_caption("QSnake")    
+    icon = pygame.image.load("./assets/icon.png")
+    pygame.display.set_icon(icon)
     game()
     if GRAPHICS:
         pygame.quit()
