@@ -13,7 +13,8 @@ PX_SIZE = 20
 fps = 20
 
 
-def main():        
+def main():
+    pygame.init()        
     pygame.display.set_caption("QSnake")    
     icon = pygame.image.load("./assets/icon.png")
     pygame.display.set_icon(icon)
