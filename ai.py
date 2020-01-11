@@ -23,10 +23,11 @@ fps = 0
 
 
 def main():
-    pygame.init()        
-    pygame.display.set_caption("QSnake")    
-    icon = pygame.image.load("./assets/icon.png")
-    pygame.display.set_icon(icon)
+    if GRAPHICS:
+        pygame.init()        
+        pygame.display.set_caption("QSnake")    
+        icon = pygame.image.load("./assets/icon.png")
+        pygame.display.set_icon(icon)
     game()
     if GRAPHICS:
         pygame.quit()
