@@ -85,9 +85,12 @@ def game():
             
             if GRAPHICS:
                 # Register keyboard and quit events
-                fps, go_to_menu = register_keypress(fps)
-                if go_to_menu: return True
-                mainloop = not register_quit()
+                fps, esc, quit_game = register_events(fps)
+                if quit_game:
+                    return False
+                if esc:
+                    return True
+                mainloop = not esc
     
         # Finalize game by appending score and updating epsilon
         epsilon -= EPSILON_DELTA
@@ -96,21 +99,23 @@ def game():
     return False
 
 
-def register_keypress(fps):
-    ''' Register keypresses and changes FPS accordingly '''
-    keys, go_to_menu = pygame.key.get_pressed(), False
-    if keys[pygame.K_4]:
-        fps = 0
-    elif keys[pygame.K_3]:
-        fps = 60
-    elif keys[pygame.K_2]:
-        fps = 30
-    elif keys[pygame.K_1]:
-        fps = 10
-    elif keys[pygame.K_ESCAPE]:
-        go_to_menu = True
-        
-    return fps, go_to_menu
+def register_events(fps=10):
+    esc, quit_game = False, False
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            quit_game = True
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                esc = True
+            elif event.key == pygame.K_1:
+                fps = 10
+            elif event.key == pygame.K_2:
+                fps = 60
+            elif event.key == pygame.K_3:
+                fps = 110
+            elif event.key == pygame.K_4:
+                fps = 0
+    return fps, esc, quit_game
 
 def load_table():
     ''' Load q_table '''

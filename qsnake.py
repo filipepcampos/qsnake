@@ -32,7 +32,7 @@ def main():
     i = 0
     wait_time, time = 250, 250
     while mainloop:
-        time += clock.tick(20)
+        time += clock.tick(25)
         mainloop = not register_quit()
         keys = pygame.key.get_pressed()
         if time > wait_time:
@@ -43,10 +43,8 @@ def main():
                 mode += 1
                 time = 0
         if keys[pygame.K_RETURN] or keys[pygame.K_SPACE]:
-            #mainloop = False
             mainloop = eval(modes[mode % 4] + ".game()")
-        
-    
+            
         if mainloop:
             i += 1
             pos, tail = update_snake(pos, tail, moves[i%226])

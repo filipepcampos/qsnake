@@ -3,12 +3,12 @@ import numpy as np
 from player import Player
 from screen import Screen
 from food import Food
-from keypress import *
+from keypress import register_events, register_enter
 
 WIDTH = 30
 HEIGHT = 30
 PX_SIZE = 20
-FPS = 20
+FPS = 15
 
 def main():
     pygame.init()        
@@ -25,6 +25,7 @@ def game():
 
     while mainloop:
         player = Player(WIDTH, HEIGHT, PX_SIZE, screen.grid)
+        action = None
         food = Food(WIDTH, HEIGHT, screen.grid)  
         screen.blit(player, food)
         loop = True
@@ -32,16 +33,15 @@ def game():
             clock.tick(FPS)
             screen.blit(player, food) 
 
-            action = register_keypress()
+            action, esc, quit_game = register_events(action)
+            if esc:
+                return True
+            if quit_game:
+                return False
             player.change_action(action)
             player.move()
             player.check_food(food)
             loop = player.check_death()
-
-            if register_quit(): 
-                return False
-            if register_esc():
-                return True
             
         
         player.clean_tail()
@@ -55,9 +55,9 @@ def wait_continue(mainloop, quit_game):
     ''' Wait for input at the end of the game '''
     continue_game = False
     while not continue_game and mainloop:
-        mainloop = not register_esc()
+        _, esc, quit_game = register_events()
+        mainloop = not esc
         continue_game = register_enter()
-        quit_game = register_quit()
         if quit_game:
             mainloop = False
     return mainloop, quit_game

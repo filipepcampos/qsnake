@@ -4,14 +4,14 @@ from player import Player
 from screen import Screen
 from food import Food
 from get_state import get_state
-from keypress import *
+from keypress import register_events, register_enter
 
 WIDTH = 30
 HEIGHT = 30
 PX_SIZE = 20
 DATA = "./data/2/"
 
-fps = 20
+fps = 15
 
 def main():
     pygame.init()        
@@ -48,13 +48,17 @@ def game():
             clock.tick(fps)
             state = get_state(player_ai, food, WIDTH, HEIGHT)
             old_player_pos, old_player_ai_pos = player.pos, player_ai.pos
+
             # Move player_ai and update time
             action = np.argmax(q_table[state]) 
             player_ai.change_action(action)
             player_ai.move()
 
             # Move player
-            action = register_keypress(player.direction)
+            action, esc, quit_game = register_events(player.direction)
+            mainloop = not esc
+            if quit_game:
+                return False
             player.change_action(action)
             player.move()
 
@@ -79,11 +83,6 @@ def game():
             if not loop:
                 winner = get_winner(player, player_ai, player_death, player_ai_death)
                 screen.draw_winner(winner=winner)
-
-            mainloop = not register_esc()
-            quit_game = register_quit()
-            if quit_game:
-                return False
         
         player.clean_tail()
         player_ai.clean_tail()
@@ -95,10 +94,9 @@ def game():
 def wait_start(mainloop, quit_game):
     ''' Wait for input at the start of the game '''
     action = None
-    while action == None and mainloop == True:            
-        action = register_keypress()
-        quit_game = register_quit()
-        mainloop = not register_esc()
+    while action == None and mainloop == True: 
+        action, esc, quit_game = register_events()  
+        mainloop = not esc
         if quit_game:
             mainloop = False
     return action, quit_game, mainloop
@@ -107,9 +105,9 @@ def wait_continue(mainloop, quit_game):
     ''' Wait for input at the end of the game '''
     continue_game = False
     while not continue_game and mainloop:
-        mainloop = not register_esc()
+        _, esc, quit_game = register_events()
+        mainloop = not esc
         continue_game = register_enter()
-        quit_game = register_quit()
         if quit_game:
             mainloop = False
     return mainloop, quit_game

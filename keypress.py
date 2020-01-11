@@ -1,41 +1,51 @@
 import pygame
 
-def register_keypress(action=None):
-    ''' Register keypresses and changes player action accordingly '''
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_UP] or keys[pygame.K_w]:
-        action = 0
-    elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
-        action = 1
-    elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
-        action = 2
-    elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-        action = 3
-    return action
+def register_events(action = None):
+    esc, quit_game = False, False
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            quit_game = True
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                esc = True
+            elif event.key == pygame.K_w or event.key == pygame.K_UP:
+                action = 0
+            elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
+                action = 1
+            elif event.key == pygame.K_a or event.key == pygame.K_LEFT:
+                action = 2
+            elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                action = 3
+    return action, esc, quit_game
 
-def register_keypress2(direction, direction2):
+def register_events2(direction, direction2):
     ''' Register keypresses and changes player action accordingly '''
+    esc, quit_game = False, False
     action, action2 = direction, direction2
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_UP]:
-        action = 0
-    elif keys[pygame.K_DOWN]:
-        action = 1
-    elif keys[pygame.K_LEFT]:
-        action = 2
-    elif keys[pygame.K_RIGHT]:
-        action = 3
-    if keys[pygame.K_w]:
-        action2 = 0
-    elif keys[pygame.K_s]:
-        action2 = 1
-    elif keys[pygame.K_a]:
-        action2 = 2
-    elif keys[pygame.K_d]:
-        action2 = 3
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            quit_game = True
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                esc = True
+            elif event.key == pygame.K_UP:
+                action = 0
+            elif event.key == pygame.K_DOWN:
+                action = 1
+            elif event.key == pygame.K_LEFT:
+                action = 2
+            elif event.key == pygame.K_RIGHT:
+                action = 3
+            elif event.key == pygame.K_w:
+                action2 = 0
+            elif event.key == pygame.K_s:
+                action2 = 1
+            elif event.key == pygame.K_a:
+                action2 = 2
+            elif event.key == pygame.K_d:
+                action2 = 3
+    return action, action2, esc, quit_game
     
-    return action, action2
-
 def register_enter():
     ''' Register if ENTER or SPACE has been pressed '''
     keys = pygame.key.get_pressed()
@@ -43,16 +53,8 @@ def register_enter():
         return True
     return False
 
-def register_quit():    
-    ''' Register if QUIT has been pressed '''
+def register_quit():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return True
-    return False
-
-def register_esc():
-    ''' Register if ESC has been pressed '''
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_ESCAPE]:
-        return True
     return False
