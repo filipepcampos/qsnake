@@ -13,41 +13,41 @@
 
 ---------
 
-## :triangular_flag_on_post: Objetivo
+## :triangular_flag_on_post: Objective
 
 
-1. Criar um clone do clássico Snake em Pygame
-2. Implementar Q-Learning
+1. Create a clone of the famous snake game using Pygame
+2. Implement Q-Learning
 
-## :page_facing_up: Descrição
+## :page_facing_up: Description
 
-Réplica do clássico jogo Snake.
-O objetivo do jogo é obter a maior quantidade de comida possível sem colidir contra uma parede ou contra a cauda do jogador.
-Este jogo poderá ser jogado por um humano ou por um agente de A.I baseado em Q-Learning
+Replica of the classic Snake game.
+The objective of this game is obtaining the most food possible without colliding either against a wall or against the player's tail.
+This game can be played by a human or by an A.I agent based on Q-Learning.
 
 ## :game_die: UI
 
 <img src="/assets/ui.gif" width="300" height="300">
 
-## :video_game: Controlos
-* **Movimento** - Setas direcionais e WASD
-* **Reiniciar Jogo** - Enter e Space
-* **Alterar velocidade de jogo em modo A.I** - Teclas 1, 2, 3 e 4
-* **Regressar ao menu** - Esc
+## :video_game: Controls
+* **Movement** - Directional keys and WASD
+* **Restart game** - Enter and Space
+* **Change game speed in A.I mode** - Keys 1 through 4
+* **Return to menu** - Esc
 
 
-## :package: Pacotes
+## :package: Packages
 
 - Pygame
 - Numpy
 
-## :clipboard: Uso
-Iniciar menu principal:
+## :clipboard: Usage
+Start the game:
 ``` sh
 $ python3 qsnake.py
 ```
 
-Iniciar diretamente modo específico:
+Start a specific mode directly:
 ``` sh
 $ python3 singleplayer.py
 $ python3 ai.py
@@ -55,30 +55,29 @@ $ python3 twoplayer.py
 $ python3 playerai.py
 ```
 
-## :heavy_check_mark: Tarefas
-1. [x] **MATRIZ NxN**
-   1. Desenhar
-   1. Registar teclas do jogador
-   1. Desenhar comida / colisão
-   1. Criar "cauda" do jogador (lista)
-1. [x] **OPÇÃO JOGADOR CONTROLADO POR AI (Q-Learning)**
-   1. Traduzir jogo em estados básicos
-      *  Criar uma matriz estados -> ações
-   1. Atualizar essa matriz com a *reward* que o jogador recebeu
-      * Para já, a snake continua a ser controlada pelo ser humano
-      * Não aconteceu nada -> soma -0.01
-      * Apanhou comida -> soma 10
-      * Morreu -> soma -100
-   1. Agir, para cada estado, com a ação com maior *reward*
-1. [x] **MODO JOGADOR-AI AO MESMO TEMPO**
+## :heavy_check_mark: Tasks
+1. [x] **MATRIX NxN**
+   1. Draw
+   1. Register player keys
+   1. Draw food and detect collisions
+   1. Create the player's "tail" (list)
+1. [x] **PLAYER CONTROLLED BY AI (Q-Learning)**
+   1. Represent the game in basic states
+      *  Create matrix state -> action
+   1. Update said matrix using a *reward* earned by the player
+      * Nothing happened -> reward = -0.01
+      * Catched food -> reward = 10
+      * Died -> reward = -100
+   1. Act, for each state, based on the action with the highest *reward*
+1. [x] **PLAYER VS AI MODE**
 
 ------
-## :books: Método Q-Learning:
-Em cada estado do jogo é mapeado um Q-value para cada ação (Up, Down, Left, Right), quanto maior este valor for melhor a ação é. Estes valores são obtidos através de tentativa e erro de diversas ações sendo a cada uma associada uma recompensa que irá influenciar o Q-value
+## :books: Q-Learning Method:
+To each game state a Q-value is mapped for each available action (Up, Down, Left, Right), the higher the value the better the action. These values are obtained through trial and error of many actions, in which the reward will influence the Q-value.
 
 **Q-Table**
 
-|Estado | :arrow_up: | :arrow_down: | :arrow_left: | :arrow_right: |
+|State | :arrow_up: | :arrow_down: | :arrow_left: | :arrow_right: |
 |--- | -----------| ------------ | ------------ | ------------- |
 | 0 | 0.322117 | 0.100763 | 0.040893 | 0.100597 |
 | 1 |0.036582 |	0.000000 |	0.000000 |	0.136924|
@@ -89,53 +88,51 @@ Em cada estado do jogo é mapeado um Q-value para cada ação (Up, Down, Left, R
 | 1022 | 0.000000 | 0.000000 | 0.000000 | 0.000000
 ------------------
 
-### :watermelon: Recompensas:
-* Movimento: -0.01
-* Comida: 10
-* Morte: -100
+### :watermelon: Rewards:
+* Movement: -0.01
+* Food: 10
+* Death: -100
 
-A cada movimento que o jogador realiza está associado uma recompensa negativa de modo a minimizar o número de movimentos até à comida.
+Each movement made by the player has an negative reward to incentivize using the least amount of moves possible.
 
-### :floppy_disk: Parâmetros:
-1. **Total**: número total de jogos a ser executados
-1. **Epsilon** : fator decisor entre realizar uma ação aleatória (para explorar diferentes estados) e realizar a melhor ação conhecida
-1. **Alpha** : taxa de aprendizagem, define o impacto de cada iteração sobre os Q-values
-1. **Gamma** : importância de recompensa a longo prazo
+### :floppy_disk: Parameters:
+1. **Total**: total number of games that have been executed
+1. **Epsilon** : decision factor between an random action (exploration) or using the best known action (exploitation)
+1. **Alpha** : learning rate
+1. **Gamma** : long-term reward impact factor
 
-### :camera: Estado:
-Cada estado é inicialmente obtido como um número binário de 10 bits, e posteriormente convertido num número decimal
-**0000_0000_00** a **1111_1111_11** (0 a 1023 decimal)
-Os grupos de bits correspondem respetivamente ao Perigo, Comida e Direção
+### :camera: State:
+Each state is initially obtained as an binary 10 bit number, and afterwards converted to an decimal number
+**0000_0000_00** to **1111_1111_11** (0 to 1023 in decimal)
+The bit groups correspond to Danger, Food and Direction
 
-**Perigo**
+**Danger**
 <table><tr><td>
-Corresponde a 4 valores booleanos associados ao perigo nas posições adjacentes ao jogador (cima, baixo, esquerda, direita)
+Corresponds to 4 boolean values associated with the danger in the positions adjacent to the player (up, down, left, right)
 </td></tr></table>
 
-**Comida**
+**Food**
 <table><tr><td>
-Corresponde à posição relativa da comida em relação ao jogador. (cima, baixo, esquerda, direita).
-</td></tr></table>
-
-
-**Direção**
-<table><tr><td>
-Número de 2 bits correspondente à direção do movimento do jogador. <code>00: cima</code>, <code>01: baixo</code>, <code>10: esquerda</code>, <code>11: direita</code>
+Corresponds to the relative position of the food compared to the player. (up, down, left, right).
 </td></tr></table>
 
 
+**Direction**
+<table><tr><td>
+2 bit number corresponding to the direction of the player movement. <code>00: up</code>, <code>01: down</code>, <code>10: left</code>, <code>11: right</code>
+</td></tr></table>
 
 
-### :computer: Funcionamento:
-1. No início de cada iteração é associado um estado à situação atual do jogo. 
-2. Em seguida é escolhida uma ação. Esta ação poderá ser uma ação aleatória se (um número aleatório entre 0 e 1 < epsilon) ou a melhor ação associada ao estado atual
-3. O jogador movimenta-se e dependendo de o que acontecer será associado uma recompensa
-4. É calculado o novo Q-Value para o estado anterior ao movimento, para a ação tomada através da seguinte fórmula:
+### :computer: Logic:
+1. At the start of each iteration a state is associated to the current game situation.
+2. Afterwards, an action is chosen. This action can either be random (exploration) or the best known move (exploitation).
+3. The player moves and, depending on the outcome, will receive a reward.
+4. A new Q-Value will be calculated for the previous state, based on the following formula:
 
 ![formula](./assets/formula.png)
 
 
-5. Repetir até terminar o número total de jogos
+5. Repeat until the total number of games is played.
 
 ------
 18/11/2019
